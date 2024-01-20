@@ -4,9 +4,9 @@ body {
 }
 
 body {
-  //background-image: url(bg3.png);
+  /* background-image: url(bg3.png); */
   background: linear-gradient(45deg, #eeaeca, #94bbe9);
-  //background-repeat: space;
+  /* background-repeat: space; */
 
   font-family: sans-serif;
   font-weight: 100;
@@ -22,7 +22,7 @@ body {
 
 table {
   width: 2000px;
-  //border-collapse: collapse;
+  /* border-collapse: collapse; */
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }

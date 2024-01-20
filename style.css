@@ -1,0 +1,9 @@
+table {
+  border: 0.5px solid purple;
+}
+th {
+  border: 0.5px solid black;
+}
+td {
+  border: 0.5px dotted black;
+}

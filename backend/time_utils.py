@@ -1,7 +1,7 @@
 from datetime import datetime
 import time
 
-CSV_DATE_FORMAT_STRING = "%Y-%m-%d %H:%M"
+CSV_DATE_FORMAT_STRING = r"%Y-%m-%d %H:%M"
 
 
 # Convert minutes to seconds

@@ -16,7 +16,7 @@ class Job:
         req_time = unix_ts_to_date(self.req_time, CSV_DATE_FORMAT_STRING)
         start_time_str = unix_ts_to_date(self.start, CSV_DATE_FORMAT_STRING)
         end_time_str = unix_ts_to_date(self.finish, CSV_DATE_FORMAT_STRING)
-        job = f"{self.car_type.value} req@{req_time} appointment[{start_time_str},{end_time_str}]; Revenue: {self.revenue}"
+        job = f"{self.car_type.value} req@{req_time} appointment[{start_time_str},{end_time_str}]; Revenue: ${self.revenue}"
         return job
 
 

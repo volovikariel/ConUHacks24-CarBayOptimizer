@@ -1,3 +1,4 @@
+from datetime import datetime
 from bay import Bay
 from car import CarType
 from job import Job, schedule
@@ -7,18 +8,18 @@ from utils import ranges_overlap
 class Day:
     def __init__(
         self,
-        start_unix_ts: int,
-        end_unix_ts: int,
+        start_time: datetime,
+        end_time: datetime,
     ):
-        self.start_unix_ts = start_unix_ts
-        self.end_unix_ts = end_unix_ts
-        self.reserved_bays: list[Bay] = [Bay([])] * 5
+        self.start_time = start_time
+        self.end_time = end_time
+        self.reserved_bays: list[Bay] = [Bay()] * 5
         self.walk_in_bay_by_type = {
-            CarType.compact: Bay([]),
-            CarType.medium: Bay([]),
-            CarType.full_size: Bay([]),
-            CarType.class_1_truck: Bay([]),
-            CarType.class_2_truck: Bay([]),
+            CarType.compact: Bay(),
+            CarType.medium: Bay(),
+            CarType.full_size: Bay(),
+            CarType.class_1_truck: Bay(),
+            CarType.class_2_truck: Bay(),
         }
         self.jobs = []
         self.selected_jobs = []

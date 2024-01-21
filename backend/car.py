@@ -10,12 +10,13 @@ class CarType(Enum):
     class_2_truck = "class 2 truck"
 
 
+# Duration in minutes
 APPOINTMENT_DURATION_BY_CAR_TYPE = {
-    CarType.compact: seconds(30),
-    CarType.medium: seconds(30),
-    CarType.full_size: seconds(30),
-    CarType.class_1_truck: seconds(60),
-    CarType.class_2_truck: seconds(120),
+    CarType.compact: 30,
+    CarType.medium: 30,
+    CarType.full_size: 30,
+    CarType.class_1_truck: 60,
+    CarType.class_2_truck: 120,
 }
 
 APPOINTMENT_REVENUE_BY_CAR_TYPE = {

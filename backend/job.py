@@ -1,10 +1,16 @@
+from datetime import datetime
 from car import CarType
-from time_utils import CSV_DATE_FORMAT_STRING, unix_ts_to_date
+from time_utils import CSV_DATE_FORMAT_STRING
 
 
 class Job:
     def __init__(
-        self, req_time: int, start: int, finish: int, revenue: int, car_type: CarType
+        self,
+        req_time: datetime,
+        start: datetime,
+        finish: datetime,
+        revenue: int,
+        car_type: CarType,
     ):
         self.start = start
         self.finish = finish
@@ -13,10 +19,10 @@ class Job:
         self.req_time = req_time
 
     def __str__(self) -> str:
-        req_time = unix_ts_to_date(self.req_time, CSV_DATE_FORMAT_STRING)
-        start_time_str = unix_ts_to_date(self.start, CSV_DATE_FORMAT_STRING)
-        end_time_str = unix_ts_to_date(self.finish, CSV_DATE_FORMAT_STRING)
-        job = f"{self.car_type.value} req@{req_time} appointment[{start_time_str},{end_time_str}]; Revenue: ${self.revenue}"
+        req_time_str = self.req_time.strftime(CSV_DATE_FORMAT_STRING)
+        start_time_str = self.start.strftime(CSV_DATE_FORMAT_STRING)
+        end_time_str = self.finish.strftime(CSV_DATE_FORMAT_STRING)
+        job = f"{self.car_type.value} req@{req_time_str} appointment[{start_time_str},{end_time_str}]; Revenue: ${self.revenue}"
         return job
 
 
@@ -52,7 +58,7 @@ def schedule(jobs: list[Job]):
     return table[num_jobs - 1]["revenue"], table[num_jobs - 1]["selected_jobs"]
 
 
-def binarySearch(job, start_index):
+def binarySearch(jobs: list[Job], start_index: int):
     # Initialize 'lo' and 'hi' for Binary Search
     lo = 0
     hi = start_index - 1
@@ -60,8 +66,8 @@ def binarySearch(job, start_index):
     # Perform binary Search iteratively
     while lo <= hi:
         mid = (lo + hi) // 2
-        if job[mid].finish <= job[start_index].start:
-            if job[mid + 1].finish <= job[start_index].start:
+        if jobs[mid].finish <= jobs[start_index].start:
+            if jobs[mid + 1].finish <= jobs[start_index].start:
                 lo = mid + 1
             else:
                 return mid

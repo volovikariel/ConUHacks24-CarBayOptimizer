@@ -156,7 +156,9 @@ function showCalendar(month, year) {
                 cell.setAttribute("data-month_name", months[month]);
                 
                 cell.className = "date-picker";
-                cell.innerHTML = "<span>" + date + "</span>";
+                var selectedDate = `${month+1}-${date}`;  // Replace with your dynamic value
+                console.log(selectedDate);
+                cell.innerHTML = '<a href="home.html?selectedDate=' + selectedDate + '">' + date + '</a>';
 
                 if ( date === start_date.getDate() && year === start_date.getFullYear() && month === start_date.getMonth() ) {
                     cell.className = "date-picker selected";
@@ -169,23 +171,12 @@ function showCalendar(month, year) {
         }
 
         tbl.appendChild(row);
-        update_event_listener_td();
 
     }
 
 }
 
-function update_event_listener_td(){
-    var datePickers = document.querySelectorAll('.date-picker');
 
-    datePickers.forEach(function (element) {
-        element.addEventListener('click', function () {
-            // Navigate to the "home.html" page
-            window.location.href = 'home.html';
-            console.log("Navigated to home.html");
-        });
-    });
-}
 function daysInMonth(iMonth, iYear) {
     return 32 - new Date(iYear, iMonth, 32).getDate();
 }

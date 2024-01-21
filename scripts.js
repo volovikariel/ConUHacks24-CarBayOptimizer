@@ -6,13 +6,21 @@ var car_colors = {
   "class 2 truck": "#6576c6",
 };
 
-var car_images = {
-  'compact': './images/compact.png',
-  'medium': './images/medium.png',
-  'full-size': './images/full_size.png',
-  "class 1 truck": './images/class1truck.png',
-  "class 2 truck": './images/class2truck.png',
-};
+  var car_prices = {
+    'compact': 150,
+    'medium': 150,
+    'full-size': 150,
+    "class 1 truck":250,
+    "class 2 truck":700,
+  };
+
+  var car_images = {
+    'compact': './images/compact.png',
+    'medium': './images/medium.png',
+    'full-size': './images/full_size.png',
+    "class 1 truck":'./images/class1truck.png',
+    "class 2 truck":'./images/class2truck.png',
+  };
 
 async function getDataAtSnapshot(snapshot){
   let data;
@@ -71,43 +79,45 @@ function getCellLocation(row, col) {
 
 // Draw a box over cells depending on the bay, the time and vehicle type 
 function drawBoxOverCells(row, time, vehicleType) {
-  let cell = getCellLocation(row, time.getHours() - 6);
-  console.log(cell);
-  // offset based on the minutes of when the appointment is
-  let xOffset = cell.width - time.getMinutes() * 100 / cell.width;
-  let actualWidth = 0;
-  // Getting the amount of time a vehicle needs to be serviced for
-  // Cell.width corresponds to 1 hour
-  if (vehicleType === "compact" || vehicleType === "medium" || vehicleType === "full-size") {
-    actualWidth = 0.5 * cell.width;
-  }
-  else if (vehicleType === "class 1 truck") {
-    actualWidth = cell.width;
-  }
-  else {
-    actualWidth = 2 * cell.width;
-  }
-  // Creating the box
-  var box = document.createElement("div");
-  box.style.position = "absolute";
-  box.style.top = cell.top + "px";
-  box.style.left = cell.left + xOffset + "px";
-  box.style.width = actualWidth + "px";
-  box.style.height = cell.height + "px";
-  box.style.background = car_colors[vehicleType];
-  box.style.borderRadius = "20px"
-  box.addEventListener('click', function () {
-    modal.style.display = 'block';
+    let cell = getCellLocation(row, time.getHours() - 6);
+    console.log(cell);
+    // offset based on the minutes of when the appointment is
+    let xOffset = cell.width - time.getMinutes() * 100 / cell.width;
+    let actualWidth = 0;
+    // Getting the amount of time a vehicle needs to be serviced for
+    // Cell.width corresponds to 1 hour
+    if (vehicleType === "compact" || vehicleType === "medium" || vehicleType === "full-size") {
+        actualWidth = 0.5 * cell.width;
+    }
+    else if (vehicleType === "class 1 truck") {
+        actualWidth = cell.width;
+    }
+    else {
+        actualWidth = 2 * cell.width;
+    }
+    // Creating the box
+    var box = document.createElement("div");
+    box.style.position = "absolute";
+    box.style.top = cell.top + "px";
+    box.style.left = cell.left + xOffset + "px";
+    box.style.width = actualWidth + "px";
+    box.style.height = cell.height + "px";
+    box.style.background = car_colors[vehicleType];
+    box.style.borderRadius = "20px"
+    box.addEventListener('click', function() {
+        modal.style.display = 'block';
+        modalContent.style.backgroundColor = car_colors[vehicleType];
+        modalContent.innerHTML =`Car type: ${vehicleType} <br> Request time: <br> Reservation time:<br> Cost:${car_prices[vehicleType]} `;
+
+      });
+    document.body.appendChild(box);
 
     modalContent.innerHTML = `This truck is  ${vehicleType}`;
-  });
-  document.body.appendChild(box);
-
   createOverlayImage(box, vehicleType)
 }
 
 // Getting data from file
-// fetch("/schedule/yyyy-mm-dd/hh:mm")
+// fetch("/schedule/yyyy-mm-dd/hh:mm"
 // .then(res => res.json())
 // .then(data => {
 //     console.log(data);
@@ -119,31 +129,6 @@ function drawBoxOverCells(row, time, vehicleType) {
 //     });
 // })
 // .catch(error => console.error('Error fetching JSON:', error));
-
-async function getDataForDate(date) {
-  let year = date.getFullYear()
-  let month = date.getMonth() + 1
-  let day = date.getDate()
-  let theDate = 0;
-  let data = await getData();
-  if (month < 10) {
-    theDate = year + "-0" + month + "-" + day;
-  }
-  else if (day < 10) {
-    theDate = year + "-" + month + "-0" + day;
-  }
-  else {
-    theDate = year + "-" + month + "-" + day;
-  }
-  let dataForDate = data.days[0][theDate].bays;
-  console.log(dataForDate.bays);
-  dataForDate.forEach(bay => {
-    console.log(bay);
-  });
-}
-
-var someDate = new Date("2022-10-04 17:45");
-getDataForDate(someDate);
 
 // Get references to modal and buttons
 var modal = document.getElementById('myModal');
@@ -162,3 +147,5 @@ window.addEventListener('click', function (event) {
     modal.style.display = 'none';
   }
 });
+
+console.log(currentday)

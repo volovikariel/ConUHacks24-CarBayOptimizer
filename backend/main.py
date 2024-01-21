@@ -37,11 +37,12 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             if job.req_time <= curr_time:
                 schedule.add_job(job)
 
-        for day in schedule.days:
-            day_of_year = day.start_time.timetuple().tm_yday
-            if len(day.jobs) > 0:
-                print(f"Day {day_of_year}:")
-                print(day)
+        # Only used for logging (no time to add logging.logger)
+        # for day in schedule.days:
+        # day_of_year = day.start_time.timetuple().tm_yday
+        # if len(day.jobs) > 0:
+        #     print(f"Day {day_of_year}:")
+        # print(day)
 
         # Send response status code
         self.send_response(200)

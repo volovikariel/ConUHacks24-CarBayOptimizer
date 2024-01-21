@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import json
 from models.day import Day
 from models.job import Job
-from utils.csv import to_csv_date_str, to_csv_datetime_str
+from utils.csv import to_csv_date_str
 
 
 class Schedule:
@@ -40,13 +40,20 @@ class Schedule:
         else:
             self.days[day_idx].handle_reserved_job(job)
 
-    def as_dict(self):
+    def as_dict(self, selected_day: datetime):
         # return datetime string and day.as_dict object
         return {
             "days": [
-                {to_csv_date_str(day.start_time): day.as_dict() for day in self.days}
-            ]
+                {
+                    to_csv_date_str(day.start_time): day.as_dict(selected_day)
+                    for day in self.days
+                }
+            ],
+            "total_revenue_up_to_today": self.revenue_up_to(selected_day),
+            "total_turned_away_revenue_up_to_today": self.get_total_turned_away_revenue_up_to(
+                selected_day
+            ),
         }
 
-    def as_json(self):
-        return json.dumps(self.as_dict(), indent=4)
+    def as_json(self, max_day: datetime):
+        return json.dumps(self.as_dict(max_day), indent=4)

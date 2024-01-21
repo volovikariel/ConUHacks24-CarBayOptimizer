@@ -1,4 +1,6 @@
 # Returns the maximum revenue, as well as the selected jobs needed to maximize the revenue
+from datetime import datetime
+from models.day import Day
 from models.job import Job
 from utils.misc import get_nearest_prev_finish_time
 
@@ -60,3 +62,31 @@ def get_max_revenue(
         )
 
     return memo[considered_job_idx]
+
+
+def get_revenue_up_to(days: list[Day], max_day: datetime) -> int:
+    total = 0
+    for d in days:
+        if d.start_time < max_day:
+            # The days are 1 indexed, so subtract 1
+            day_idx = d.start_time.timetuple().tm_yday - 1
+            total += days[day_idx].get_total_bays_revenue(
+                datetime(2022, 1, 1),
+                max_day.replace(hour=7 + 12, minute=0, second=0),
+            )
+    return total
+
+
+def get_total_turned_away_revenue_up_to(
+    self, days: list[Day], max_day: datetime
+) -> int:
+    total = 0
+    for d in days:
+        if d.start_time < max_day:
+            # The days are 1 indexed, so subtract 1
+            day_idx = d.start_time.timetuple().tm_yday - 1
+            total += days[day_idx].get_total_turned_away_revenue(
+                datetime(2022, 1, 1),
+                max_day.replace(hour=7 + 12, minute=0, second=0),
+            )
+    return total

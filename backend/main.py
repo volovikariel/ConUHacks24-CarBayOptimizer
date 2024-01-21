@@ -52,7 +52,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
         # Write content as utf-8 data
-        self.wfile.write(bytes(schedule.as_json(), "utf8"))
+        self.wfile.write(bytes(schedule.as_json(curr_time), "utf8"))
 
 
 def main() -> None:

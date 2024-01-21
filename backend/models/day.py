@@ -1,10 +1,14 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 from models.bay import Bay
 from models.car import CarType
 from models.job import Job
 from utils.misc import ranges_overlap
-from utils.schedule import schedule
+from utils.schedule import (
+    get_revenue_up_to,
+    get_total_turned_away_revenue_up_to,
+    schedule,
+)
 
 
 class Day:
@@ -23,11 +27,33 @@ class Day:
             CarType.class_1_truck: Bay([]),
             CarType.class_2_truck: Bay([]),
         }
-        self.jobs = []
+        self.jobs: list[Job] = []
         # TODO
         self.revenue_by_car_type = 0
         # TODO
         self.turned_away_revenue_by_car_type = 0
+
+    def get_total_turned_away_revenue(
+        self, min_time: datetime, max_time: datetime
+    ) -> int:
+        total = 0
+        for job in self.jobs:
+            if min_time <= job.start and job.finish <= max_time:
+                total += job.revenue
+        total -= self.get_total_bays_revenue(min_time, max_time)
+        return total
+
+    def get_total_bays_revenue(self, min_time: datetime, max_time: datetime) -> int:
+        total = 0
+        all_jobs = (
+            self.get_reserved_jobs()
+            + self.get_non_selected_reserved_jobs()
+            + self.get_walk_in_jobs()
+        )
+        for job in all_jobs:
+            if min_time <= job.start and job.finish <= max_time:
+                total += job.revenue
+        return total
 
     def add_reserved_job(self, job: Job) -> None:
         self.jobs.append(job)
@@ -113,11 +139,30 @@ class Day:
                 string += f"Walk-in bay for {car_type.value}: {bay}\n"
         return string
 
-    def as_dict(self):
+    def as_dict(self, selected_day: datetime) -> dict:
         reserved_bays = [bay.as_dict() for bay in self.reserved_bays]
         walk_in_bays = [bay.as_dict() for bay in self.walk_in_bay_by_type.values()]
         all_bays = reserved_bays + walk_in_bays
-        return {"bays": all_bays}
+
+        return {
+            "bays": all_bays,
+            "revenue_today": self.get_total_bays_revenue(
+                self.start_time, self.end_time
+            ),
+            "turned_away_revenue_today": self.get_total_turned_away_revenue(
+                self.start_time, self.end_time
+            ),
+            "revenue_up_to_today": get_revenue_up_to(
+                # 2022 up to today
+                datetime(2022, 1, 1, hour=7, minute=0, second=0),
+                self.end_time,
+            ),
+            "turned_away_revenue_up_to_today": get_total_turned_away_revenue_up_to(
+                # 2022 up to today
+                datetime(2022, 1, 1, hour=7, minute=0, second=0),
+                self.end_time,
+            ),
+        }
 
     def as_json(self):
         return json.dumps(self.as_dict(), indent=4)

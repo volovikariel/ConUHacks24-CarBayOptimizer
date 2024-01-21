@@ -21,6 +21,8 @@ var car_colors = {
     "class 1 truck":'./images/class1truck.png',
     "class 2 truck":'./images/class2truck.png',
   };
+json_data = getDataAtSnapshot(update_schedule())
+findTarget(json_data,currentDate)
 
 async function getDataAtSnapshot(snapshot){
   let data;

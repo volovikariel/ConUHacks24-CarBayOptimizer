@@ -79,6 +79,7 @@ function update_schedule() {
   }
   day = (day < 10) ? '0' + day : '' + day;
   hour_of_day=  (hour_of_day < 10) ? '0' + hour_of_day : '' + hour_of_day;
+  formatted_day = `2022-${month}-${day}/${hour_of_day}:00`;
   return formatted_day
 }
 

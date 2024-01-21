@@ -27,6 +27,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         path_pattern = re.compile(r"^/schedule/(\d{4}-\d{2}-\d{2})/(\d{2}:\d{2})$")
         match = path_pattern.match(self.path)
         if not match:
+            self.send_header("Access-Control-Allow-Origin", "*")
             self.send_error(404, "Not Found")
             return
         date_str = match.group(1)
@@ -48,7 +49,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.send_response(200)
 
         # Send headers
-        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Content-type", "application/json")
         self.end_headers()
 

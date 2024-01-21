@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <title>ConUHacks VIII</title>
-    <link rel="stylesheet" href="style.css" />
-    <head>
       <meta charset="UTF-8" />
       <title>ConUHacks VIII</title>
       <link rel="stylesheet" href="style.css" />
@@ -78,7 +74,6 @@ createYear = generate_year_range(2022, 2022);
 document.getElementById("year").innerHTML = createYear;
 
 var calendar = document.getElementById("calendar");
-var lang = calendar.getAttribute('data-lang');
 
 var months = "";
 var days = "";
@@ -157,6 +152,7 @@ function showCalendar(month, year) {
                 cell.setAttribute("data-month", month + 1);
                 cell.setAttribute("data-year", year);
                 cell.setAttribute("data-month_name", months[month]);
+                
                 cell.className = "date-picker";
                 cell.innerHTML = "<span>" + date + "</span>";
 
@@ -178,7 +174,19 @@ function showCalendar(month, year) {
 function daysInMonth(iMonth, iYear) {
     return 32 - new Date(iYear, iMonth, 32).getDate();
 }
-  
+
+document.addEventListener('DOMContentLoaded', function() {
+      // Get all elements with class "date-picker"
+      var datePickers = document.querySelectorAll('.date-picker');
+
+      // Add click event listeners
+      datePickers.forEach(function(element) {
+        element.addEventListener('click', function() {
+          // Navigate to the "home.html" page
+          window.location.href = 'home.html';
+        });
+      });
+    });
       </script>
     </body>
 

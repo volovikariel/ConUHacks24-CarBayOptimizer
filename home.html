@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <title>ConUHacks VIII</title>
-    <link rel="stylesheet" href="style.css" />
-    <head>
+    
       <meta charset="UTF-8" />
       <title>ConUHacks VIII</title>
       <link rel="stylesheet" href="style.css" />
@@ -37,7 +34,7 @@
           <tbody>
             <tr>
               <td>Reserved</td>
-              <td></td>
+              <td  >Testing</td>
               <td></td>
               <td></td>
               <td></td>
@@ -235,8 +232,11 @@
         </table>
       </div>
 
-
+      <!-- These scrips are for the tippy import module-->
+      <script src="https://unpkg.com/popper.js@1"></script>
+      <script src="https://unpkg.com/tippy.js@5"></script>
       <script>
+       
         function toggleTable() {
           var table = document.getElementById("scheduleTable");
           if (table.style.opacity === "1" || table.style.opacity === "") {
@@ -246,15 +246,11 @@
           }
         }
       </script>
-    
-
-  </script>
-      </script>
     </body>
 
 
    
   
 </html>
-<script src="scripts.js"></script>
+<script type="module" src="scripts.js"></script>
 <script src="hi.js"></script>

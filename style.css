@@ -177,6 +177,12 @@ tbody {
 .date-picker.selected span {
   border-bottom: 2px solid currentColor;
 }
+.date-picker {
+  cursor: pointer;
+}
+.date-picker:hover{
+  background-color: #41414a;
+}
 
 /* sunday */
 .date-picker:nth-child(1) {

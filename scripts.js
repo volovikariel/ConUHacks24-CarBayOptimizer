@@ -1,3 +1,13 @@
+import tippy from 'tippy.js';
+import 'tippy.js/dist/tippy.css';
+
+tippy('[data-tippy-content]');
+tippy('button', {
+    duration: 0,
+    arrow: false,
+    delay: [1000, 200]
+  });
+
 var boxElement = document.createElement("div")
 
 boxElement.style.width = "130px";

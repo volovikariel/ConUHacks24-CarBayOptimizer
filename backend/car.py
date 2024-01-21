@@ -1,5 +1,5 @@
 from enum import Enum
-from time_utils import minutes_to_seconds
+from time_utils import seconds
 
 
 class CarType(Enum):
@@ -11,11 +11,11 @@ class CarType(Enum):
 
 
 APPOINTMENT_DURATION_BY_CAR_TYPE = {
-    CarType.compact: minutes_to_seconds(30),
-    CarType.medium: minutes_to_seconds(30),
-    CarType.full_size: minutes_to_seconds(30),
-    CarType.class_1_truck: minutes_to_seconds(60),
-    CarType.class_2_truck: minutes_to_seconds(120),
+    CarType.compact: seconds(30),
+    CarType.medium: seconds(30),
+    CarType.full_size: seconds(30),
+    CarType.class_1_truck: seconds(60),
+    CarType.class_2_truck: seconds(120),
 }
 
 APPOINTMENT_REVENUE_BY_CAR_TYPE = {

@@ -9,13 +9,20 @@ var scrub = {
   },
   timeline = document.getElementById("timeline"),
   mouseDown = true;
+scrub.el.onmousedown = function (e) {
+  mouseDown = true;
+  scrub.origin = timeline.offsetLeft;
+  scrub.last.x = e.clientX;
+  return false;
+};
 
-scrub.el.onmousedown = function () {
+/*scrub.el.onmousedown = function () {
   mouseDown = true;
   scrub.origin = timeline.offsetLeft;
   scrub.last.x = scrub.el.offsetLeft;
   return false;
 };
+*/
 
 document.onmousemove = function (e) {
   if (mouseDown === true) {

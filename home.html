@@ -197,40 +197,6 @@
         
           <button onclick="toggleTable()" class="button" id="report_button">View Report</button>
 
-       
-        <table class="schedule" id = "scheduleTable">
-          <tr>
-            <th></th>
-            <th>Served Customers</th>
-            <th>Declined Customers</th>
-          </tr>
-          <tr>
-            <td>Compact Cars</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Medium Cars</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Full-Size Cars</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Class 1 Trucks</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Class 2 Trucks</td>
-            <td></td>
-            <td></td>
-          </tr>
-        </table>
-      </div>
 
       <!-- These scrips are for the tippy import module-->
       <script src="https://unpkg.com/popper.js@1"></script>
@@ -248,9 +214,54 @@
       </script>
     </body>
 
+    <table class="schedule" id="scheduleTable">
+      <tr>
+        <th></th>
+        <th>Served Customers</th>
+        <th>Declined Customers</th>
+      </tr>
+      <tr>
+        <td>Compact Cars</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Medium Cars</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Full-Size Cars</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Class 1 Trucks</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Class 2 Trucks</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+  </div>
 
-   
-  
+  <script>
+    function toggleTable() {
+      var table = document.getElementById("scheduleTable");
+      if (table.style.opacity === "1" || table.style.opacity === "") {
+        table.style.opacity = "0";
+      } else {
+        table.style.opacity = "1";
+      }
+    }
+  </script>
+</body>
+
 </html>
 <script type="module" src="scripts.js"></script>
+<script src="hi.js"></script>
+<script src="scripts.js"></script>
 <script src="hi.js"></script>

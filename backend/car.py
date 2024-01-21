@@ -1,5 +1,4 @@
 from enum import Enum
-from time_utils import seconds
 
 
 class CarType(Enum):

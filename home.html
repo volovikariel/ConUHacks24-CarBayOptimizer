@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>ConUHacks VIII</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <a href="month.html">
+    <button class="button" id="report_button">Go to Calendar</button>
+  </a>
+
+  <div class="container">
+    <table class="calendar" id="calendar">
+      <thead>
+        <tr class="table_time_header">
+          <th></th>
+          <th>7am</th>
+          <th>8am</th>
+          <th>9am</th>
+          <th>10am</th>
+          <th>11am</th>
+          <th>12pm</th>
+          <th>1pm</th>
+          <th>2pm</th>
+          <th>3pm</th>
+          <th>4pm</th>
+          <th>5pm</th>
+          <th>6pm</th>
+          <th>7pm</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Reserved</td>
+          <td id="testing_cell" style="position: relative;"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Reserved</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Reserved</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Reserved</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Reserved</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Compact Cars</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Medium Cars</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Full-Size Cars</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Class 1 Trucks</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Class 2 Trucks</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeModalBtn">&times;</span>
+        <p>This is a modal. Click the close button to close it.</p>
+      </div>
+    </div>
+
+
+    <input type="text" id="output" />
+    <br><br><br><br>
+
+    <div id="timeline">
+      <div id="scrub"></div>
+    </div>
+    <button onclick="toggleTable()" class="button" id="report_button">View Report</button>
+
+
+    <!-- These scrips are for the tippy import module-->
+    <script src="https://unpkg.com/popper.js@1"></script>
+    <script src="https://unpkg.com/tippy.js@5"></script>
+</body>
+
+<table class="schedule" id="scheduleTable">
+  <tr>
+    <th></th>
+    <th>Served Customers</th>
+    <th>Declined Customers</th>
+  </tr>
+  <tr>
+    <td>Compact Cars</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Medium Cars</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Full-Size Cars</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Class 1 Trucks</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Class 2 Trucks</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+
+  <tr>
+    <th></th>
+    <th>Total Revenue</th>
+    <th>Loss Revenue</th>
+  </tr>
+  <tr>
+    <td>Today revenue</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Revenue up to today</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+</table>
+</div>
+
+
+<script>
+  function toggleTable() {
+    var table = document.getElementById("scheduleTable");
+    if (table.style.opacity === "1" || table.style.opacity === "") {
+      table.style.opacity = "0";
+    } else {
+      table.style.opacity = "1";
+    }
+  }
+</script>
+<script type="module" src="scripts.js"></script>
+<script src="scripts.js"></script>
+<script src="hi.js"></script>
+</body>
+</html>

@@ -8,7 +8,7 @@ def schedule(jobs: list[Job]) -> (int, list[Job]):
     sorted_jobs = sorted(jobs, key=lambda j: j.finish)
 
     if len(jobs) == 6:
-        print(f"Sorted jobs: [{",".join([str(job) for job in sorted_jobs])}]")
+        print(f"Sorted jobs: [{','.join([str(job) for job in sorted_jobs])}]")
     max_revenue, selected_job_idxs = get_max_revenue(
         sorted_jobs, memo={}, considered_job_idx=len(sorted_jobs) - 1
     )

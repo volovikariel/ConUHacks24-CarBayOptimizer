@@ -43,7 +43,16 @@ thead {
     background-color: #55608f;
   }
 }
-
+.table_time_header th{
+  background-color: #111b49;
+  height: 80px;
+  font-size:30px;
+  text-align: center; /* Horizontal centering */
+  vertical-align: middle; /* Vertical centering */
+}
+.table_time_header {
+  justify-items: center;
+}
 tbody {
   tr {
     &:hover {
@@ -72,4 +81,16 @@ tbody {
   text-align: center;
   margin: 4px 2px;
   cursor: pointer;
+}
+.schedule{
+  border-collapse: collapse;
+  margin: 20px;
+  opacity: 1;
+  transition: opacity 1s ease; /* Smooth fade transition */
+}
+.calendar{
+  margin: 20px;
+  margin-top: 300px;
+  font-size: 30px;
+
 }

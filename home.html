@@ -11,9 +11,9 @@
     </head>
     <body>
       <div class="container">
-        <table>
+        <table class = "calendar">
           <thead>
-            <tr>
+            <tr class="table_time_header">
               <th></th>
               <th>7am</th>
               <th>8am</th>
@@ -34,49 +34,170 @@
             <tr>
               <td>Reserved</td>
               <td></td>
-            </tr>
-            <tr>
-              <td>Reserved</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td></td>
             </tr>
             <tr>
               <td>Reserved</td>
               <td></td>
-            </tr>
-            <tr>
-              <td>Reserved</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td></td>
             </tr>
             <tr>
               <td>Reserved</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Reserved</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Reserved</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td></td>
             </tr>
             <tr>
               <td>Compact Cars</td>
               <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
             <tr>
               <td>Medium Cars</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td></td>
             </tr>
             <tr>
               <td>Full-Size Cars</td>
               <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
             <tr>
               <td>Class 1 Trucks</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td></td>
             </tr>
             <tr>
               <td>Class 2 Trucks</td>
               <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
           </tbody>
         </table>
         
-          <button class="button">View Report</button>
+          <button onclick="toggleTable()" class="button">View Report</button>
+
        
-        <table class="schedule">
+        <table class="schedule" id = "scheduleTable">
           <tr>
             <th></th>
             <th>Served Customers</th>
@@ -109,5 +230,25 @@
           </tr>
         </table>
       </div>
+
+
+      <script>
+        function toggleTable() {
+          var table = document.getElementById("scheduleTable");
+          if (table.style.opacity === "1" || table.style.opacity === "") {
+            table.style.opacity = "0";
+          } else {
+            table.style.opacity = "1";
+          }
+        }
+      </script>
+    
+
+  </script>
+      </script>
     </body>
+
+
+   
+  
 </html>

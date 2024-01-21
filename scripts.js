@@ -89,31 +89,26 @@ function drawBoxOverCells(row, time, vehicleType) {
 }
 
 // Getting data from file
-fetch('/output.json')
-    .then(response => { return response.json(); })
-    .then(data => {
-        console.log(data);
-        // Going through each dict in data and drawing boxes
-        data.forEach(item => {
-            let bay = item.bay;
-            let time = item.end_date_time;
-            time = new Date(time);
-            drawBoxOverCells(bay, time, item.category);
-        });
-    })
-    .catch(error => console.error('Error fetching JSON:', error));
+fetch("/output.json")
+.then(res => res.json())
+.then(data => {
+    console.log(data);
+    data.forEach(item => {
+        let bay = item.bay;
+        let time = item.end_date_time;
+        time = new Date(time);
+        drawBoxOverCells(bay, time, item.category);
+    });
+})
+.catch(error => console.error('Error fetching JSON:', error));
 
-
-
-    // Get references to modal and buttons
+// Get references to modal and buttons
 var modal = document.getElementById('myModal');
 // var openModalBtn = document.getElementById('openModalBtn');
 var closeModalBtn = document.getElementById('closeModalBtn');
 var modalContent = document.querySelector('.modal-content');
 
 // Event listeners to show/hide modal
-
-
 closeModalBtn.addEventListener('click', function() {
   modal.style.display = 'none';
 });

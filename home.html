@@ -8,6 +8,10 @@
 </head>
 
 <body>
+  <a href="month.html">
+    <button class="button" id="report_button">Go to Calendar</button>
+  </a>
+
   <div class="container">
     <table class="calendar" id="calendar">
       <thead>
@@ -192,54 +196,67 @@
       </tbody>
     </table>
 
-    <button onclick="toggleTable()" class="button">View Report</button>
+    <input type="text" id="output" />
+    <br><br><br><br>
 
-    <table class="schedule" id="scheduleTable">
-      <tr>
-        <th></th>
-        <th>Served Customers</th>
-        <th>Declined Customers</th>
-      </tr>
-      <tr>
-        <td>Compact Cars</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Medium Cars</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Full-Size Cars</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Class 1 Trucks</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Class 2 Trucks</td>
-        <td></td>
-        <td></td>
-      </tr>
-    </table>
-  </div>
+    <div id="timeline">
+      <div id="scrub"></div>
+    </div>
+    <button onclick="toggleTable()" class="button" id="report_button">View Report</button>
 
-  <script>
-    function toggleTable() {
-      var table = document.getElementById("scheduleTable");
-      if (table.style.opacity === "1" || table.style.opacity === "") {
-        table.style.opacity = "0";
-      } else {
-        table.style.opacity = "1";
-      }
-    }
-  </script>
+
+    <!-- These scrips are for the tippy import module-->
+    <script src="https://unpkg.com/popper.js@1"></script>
+    <script src="https://unpkg.com/tippy.js@5"></script>
 </body>
 
-</html>
+<table class="schedule" id="scheduleTable">
+  <tr>
+    <th></th>
+    <th>Served Customers</th>
+    <th>Declined Customers</th>
+  </tr>
+  <tr>
+    <td>Compact Cars</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Medium Cars</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Full-Size Cars</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Class 1 Trucks</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Class 2 Trucks</td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+</div>
+
+<script>
+  function toggleTable() {
+    var table = document.getElementById("scheduleTable");
+    if (table.style.opacity === "1" || table.style.opacity === "") {
+      table.style.opacity = "0";
+    } else {
+      table.style.opacity = "1";
+    }
+  }
+</script>
+<script type="module" src="scripts.js"></script>
+<script src="hi.js"></script>
 <script src="scripts.js"></script>
 <script src="hi.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# Testing that a walk-in when walk-in bay is full
+# but there's space in the reserved bays, it gets put into a reserved-bay
+2022-09-10 07:00,2022-10-02 07:15,compact
+2022-09-10 07:00,2022-10-02 07:15,compact
+2022-09-10 07:00,2022-10-02 07:15,compact
+2022-09-10 07:00,2022-10-02 07:15,compact
+# The following one will get put in walk-in
+2022-10-02 07:15,2022-10-02 07:15,compact
+# The following one should be put in reserved
+2022-10-02 07:15,2022-10-02 07:15,compact

@@ -1,129 +1,117 @@
-import os
-from job import Job
-from car import (
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from datetime import datetime, timedelta
+import argparse
+import re
+from models.job import Job
+from models.car import (
     APPOINTMENT_DURATION_BY_CAR_TYPE,
     APPOINTMENT_REVENUE_BY_CAR_TYPE,
-    CarType,
 )
-from time_utils import date_to_unix_ts
+from models.schedule import Schedule
+from utils.csv import (
+    csv_to_rows,
+    to_csv_datetime,
+    to_csv_datetime_str,
+)
+
+MIN_ALLOWED_REQUEST_START_DATE = datetime(2022, 9, 1)
+ALLOWED_APPOINTMENT_START_DATE = datetime(2022, 10, 1)
+MAX_ALLOWED_APPOINTMENT_END_DATE = datetime(2022, 12, 1) - timedelta(seconds=1)
+jobs: list[Job] = []
 
 
-class Row:
-    req_unix_ts: int
-    appointment_start_unix_ts: int
-    car_type: CarType
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        # extract params
+        # date, time
+        path_pattern = re.compile(r"^/schedule/(\d{4}-\d{2}-\d{2})/(\d{2}:\d{2})$")
+        match = path_pattern.match(self.path)
+        if not match:
+            self.send_error(404, "Not Found")
+            return
+        date_str = match.group(1)
+        time_str = match.group(2)
+        curr_time = to_csv_datetime(f"{date_str} {time_str}")
+        schedule = Schedule()
+        for job in jobs:
+            if job.req_time <= curr_time:
+                schedule.add_job(job)
 
-    def __init__(
-        self,
-        req_unix_ts: int,
-        appointment_start_unix_ts: int,
-        car_type: CarType,
-    ):
-        self.req_unix_ts = req_unix_ts
-        self.appointment_start_unix_ts = appointment_start_unix_ts
-        self.car_type = car_type
+        for day in schedule.days:
+            day_of_year = day.start_time.timetuple().tm_yday
+            if len(day.jobs) > 0:
+                print(f"Day {day_of_year}:")
+                print(day)
 
-    def __str__(self) -> str:
-        return f"{self.req_unix_ts},{self.appointment_start_unix_ts},{self.car_type}"
+        # Send response status code
+        self.send_response(200)
 
+        # Send headers
+        self.send_header("Content-type", "application/json")
+        self.end_headers()
 
-def csv_to_rows(filename: str) -> list[Row]:
-    # Ensure that the file exists
-    if not os.path.exists(filename):
-        raise FileNotFoundError(f"File '{filename}' does not exist.")
-
-    rows = []
-    with open(filename, "r") as f:
-        for row in f.readlines():
-            req, appointment, car_type = row.strip().split(",")
-            rows.append(
-                Row(
-                    req_unix_ts=date_to_unix_ts(req),
-                    appointment_start_unix_ts=date_to_unix_ts(appointment),
-                    car_type=CarType(car_type),
-                )
-            )
-    return rows
+        # Write content as utf-8 data
+        self.wfile.write(bytes(schedule.as_json(), "utf8"))
 
 
 def main() -> None:
-    rows = csv_to_rows("tests/cases.csv")
-    # sort rows by req time
-    rows.sort(key=lambda row: row.req_unix_ts)
+    parser = argparse.ArgumentParser(description="Backend for the tire-shop scheduler")
+    parser.add_argument(
+        "-f", "--file", required=True, type=str, help="The file to parse and schedule"
+    )
 
-    jobs = []
+    # Parse the arguments
+    args = parser.parse_args()
+    rows = csv_to_rows(args.file)
     for row in rows:
-        req_time = row.req_unix_ts
-        appointment_start_time = row.appointment_start_unix_ts
+        req_time = row.req_time
+        if (
+            req_time < MIN_ALLOWED_REQUEST_START_DATE
+            or req_time > MAX_ALLOWED_APPOINTMENT_END_DATE
+        ):
+            # Skip requests that were placed before September and after November
+            print(
+                f"Skipping appointment requested at {to_csv_datetime_str(req_time)} because the request was placed outside the allowed date range (September to November)"
+            )
+            continue
+        appointment_start_time = row.appointment_start
         appointment_duration = APPOINTMENT_DURATION_BY_CAR_TYPE[row.car_type]
-        appointment_end_time = appointment_start_time + appointment_duration
         appointment_revenue = APPOINTMENT_REVENUE_BY_CAR_TYPE[row.car_type]
+        appointment_end_time = appointment_start_time + timedelta(
+            minutes=appointment_duration
+        )
+        if req_time > appointment_start_time:
+            print(
+                '"Marty McFly, we won\'t be servicing the DeLorean today, come back yesterday" - Kevin McFly, 1985'
+            )
+            continue
+        if (
+            appointment_start_time < ALLOWED_APPOINTMENT_START_DATE
+            or appointment_end_time > MAX_ALLOWED_APPOINTMENT_END_DATE
+        ):
+            # Skip appointments that are not in October and November
+            print(
+                f"Skipping appointment requested at {to_csv_datetime_str(req_time)} because its appointment start time ({to_csv_datetime_str(appointment_start_time)}, {to_csv_datetime_str(appointment_end_time)}) is outside the allowed date range (October to November)"
+            )
+            continue
         jobs.append(
             Job(
+                req_time=req_time,
                 start=appointment_start_time,
                 finish=appointment_end_time,
                 revenue=appointment_revenue,
-                type=row.car_type,
+                car_type=row.car_type,
             )
         )
-        print(
-            f"{req_time=} {appointment_start_time=} {appointment_end_time=} {appointment_revenue=}"
-        )
 
-    max_revenue, selected_jobs = schedule(jobs)
-    print(max_revenue)
-    for job in selected_jobs:
-        print(job)
+    # Process them in request order
+    jobs.sort(key=lambda j: j.req_time)
 
-
-# The main function that returns the maximum possible
-# revenue from the given array of jobs
-def schedule(jobs: list[Job]):
-    # Sort jobs according to finish time
-    jobs = sorted(jobs, key=lambda j: j.finish)
-
-    # Create an array to store solutions of subproblems. table[i]
-    # stores the revenue for jobs till arr[i] (including arr[i])
-    n = len(jobs)
-    table = [{"revenue": 0, "selected_jobs": []} for _ in range(n)]
-
-    table[0]["revenue"] = jobs[0].revenue
-    table[0]["selected_jobs"].append(jobs[0])
-
-    # Fill entries in table[] using recursive property
-    for i in range(1, n):
-        # Find revenue including the current job
-        inclProf = jobs[i].revenue
-        l = binarySearch(jobs, i)
-        if l != -1:
-            inclProf += table[l]["revenue"]
-
-        # Store maximum of including and excluding
-        if inclProf > table[i - 1]["revenue"]:
-            table[i]["revenue"] = inclProf
-            table[i]["selected_jobs"] = table[l]["selected_jobs"] + [jobs[i]]
-        else:
-            table[i] = table[i - 1]
-
-    return table[n - 1]["revenue"], table[n - 1]["selected_jobs"]
-
-
-def binarySearch(job, start_index):
-    # Initialize 'lo' and 'hi' for Binary Search
-    lo = 0
-    hi = start_index - 1
-
-    # Perform binary Search iteratively
-    while lo <= hi:
-        mid = (lo + hi) // 2
-        if job[mid].finish <= job[start_index].start:
-            if job[mid + 1].finish <= job[start_index].start:
-                lo = mid + 1
-            else:
-                return mid
-        else:
-            hi = mid - 1
-    return -1
+    port = 8080
+    server_address = ("", port)
+    httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
+    print(f"Serving on port {port}")
+    httpd.serve_forever()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,9 @@
+# Testing that overlapping walk-ins result in only one of them being picked (if all reserved bays are empty) 
+2022-09-10 07:00,2022-10-02 07:15,compact
+2022-09-10 07:00,2022-10-02 07:15,compact
+2022-09-10 07:00,2022-10-02 07:15,compact
+2022-09-10 07:00,2022-10-02 07:15,compact
+2022-09-10 07:00,2022-10-02 07:15,compact
+2022-10-02 07:15,2022-10-02 07:15,compact
+2022-10-02 07:15,2022-10-02 07:15,compact
+2022-10-02 07:18,2022-10-02 07:18,compact

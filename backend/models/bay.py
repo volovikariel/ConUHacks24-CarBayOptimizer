@@ -1,4 +1,4 @@
-from job import Job
+from models.job import Job
 
 
 class Bay:

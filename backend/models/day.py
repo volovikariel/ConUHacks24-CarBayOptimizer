@@ -1,8 +1,8 @@
 from datetime import datetime
-from bay import Bay
-from car import CarType
-from job import Job, schedule
-from utils import ranges_overlap
+from models.bay import Bay
+from models.car import CarType
+from models.job import Job, schedule
+from utils.misc import ranges_overlap
 
 
 class Day:

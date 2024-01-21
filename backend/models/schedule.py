@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
-from day import Day
-from job import Job
+from models.day import Day
+from models.job import Job
 
 
 class Schedule:

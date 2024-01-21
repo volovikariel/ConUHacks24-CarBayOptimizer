@@ -1,6 +1,6 @@
 from datetime import datetime
-from car import CarType
-from time_utils import CSV_DATE_FORMAT_STRING
+from models.car import CarType
+from utils.time import CSV_DATE_FORMAT_STRING
 
 
 class Job:

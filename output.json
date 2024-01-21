@@ -1,31 +1,31 @@
 [
   {
     "start_date_time": "2022-09-03 09:22",
-    "end_date_time": "2022-11-10 16:45",
+    "end_date_time": "2022-11-10 12:02",
     "category": "class 1 truck",
     "bay": 1
   },
   {
     "start_date_time": "2022-09-03 09:22",
-    "end_date_time": "2022-11-10 16:45",
+    "end_date_time": "2022-11-10 7:26",
     "category": "class 2 truck",
     "bay": 2
   },
   {
     "start_date_time": "2022-09-03 09:22",
-    "end_date_time": "2022-11-10 16:45",
+    "end_date_time": "2022-11-10 13:12",
     "category": "compact",
     "bay": 3
   },
   {
     "start_date_time": "2022-09-03 09:22",
-    "end_date_time": "2022-11-10 16:45",
+    "end_date_time": "2022-11-10 8:30",
     "category": "medium",
     "bay": 4
   },
   {
     "start_date_time": "2022-09-03 09:22",
-    "end_date_time": "2022-11-10 16:45",
+    "end_date_time": "2022-11-10 16:00",
     "category": "full-size",
     "bay": 5
   }

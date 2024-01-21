@@ -4,51 +4,16 @@ from models.job import Job
 from models.car import (
     APPOINTMENT_DURATION_BY_CAR_TYPE,
     APPOINTMENT_REVENUE_BY_CAR_TYPE,
-    CarType,
 )
 from models.schedule import Schedule
-from utils.time import (
-    to_csv_date,
+from utils.csv import (
+    csv_to_rows,
     to_csv_date_str,
 )
 
-
-class Row:
-    req_time: datetime
-    appointment_start: datetime
-    car_type: CarType
-
-    def __init__(
-        self,
-        req_time: datetime,
-        appointment_start: datetime,
-        car_type: CarType,
-    ):
-        self.req_time = req_time
-        self.appointment_start = appointment_start
-        self.car_type = car_type
-
-    def __str__(self) -> str:
-        return f"{to_csv_date_str(self.req_time)},{to_csv_date_str(self.appointment_start)},{self.car_type.value}"
-
-
-def csv_to_rows(filename: str) -> list[Row]:
-    # Ensure that the file exists
-    if not os.path.exists(filename):
-        raise FileNotFoundError(f"File '{filename}' does not exist.")
-
-    rows = []
-    with open(filename, "r") as f:
-        for row in f.readlines():
-            req_str, appointment_str, car_type = row.strip().split(",")
-            rows.append(
-                Row(
-                    req_time=to_csv_date(req_str),
-                    appointment_start=to_csv_date(appointment_str),
-                    car_type=CarType(car_type),
-                )
-            )
-    return rows
+MIN_ALLOWED_REQUEST_START_DATE = datetime(2022, 9, 1)
+ALLOWED_APPOINTMENT_START_DATE = datetime(2022, 10, 1)
+MAX_ALLOWED_APPOINTMENT_END_DATE = datetime(2022, 12, 1) - timedelta(seconds=1)
 
 
 def main() -> None:
@@ -56,15 +21,12 @@ def main() -> None:
     # sort rows by req time
     rows.sort(key=lambda row: row.req_time)
 
-    allowed_request_start_date = datetime(2022, 9, 1)
-    allowed_appointment_start_date = datetime(2022, 10, 1)
-    allowed_appointment_end_date = datetime(2022, 12, 1) - timedelta(seconds=1)
     jobs: list[Job] = []
     for row in rows:
         req_time = row.req_time
         if (
-            req_time < allowed_request_start_date
-            or req_time > allowed_appointment_end_date
+            req_time < MIN_ALLOWED_REQUEST_START_DATE
+            or req_time > MAX_ALLOWED_APPOINTMENT_END_DATE
         ):
             # Skip requests that were placed before September and after November
             print(
@@ -83,8 +45,8 @@ def main() -> None:
             )
             continue
         if (
-            appointment_start_time < allowed_appointment_start_date
-            or appointment_end_time > allowed_appointment_end_date
+            appointment_start_time < ALLOWED_APPOINTMENT_START_DATE
+            or appointment_end_time > MAX_ALLOWED_APPOINTMENT_END_DATE
         ):
             # Skip appointments that are not in October and November
             print(

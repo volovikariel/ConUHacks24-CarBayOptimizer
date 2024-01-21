@@ -13,7 +13,7 @@ class Day:
     ):
         self.start_time = start_time
         self.end_time = end_time
-        self.reserved_bays: list[Bay] = [Bay()] * 5
+        self.reserved_bays: list[Bay] = [Bay() for _ in range(5)]
         self.walk_in_bay_by_type = {
             CarType.compact: Bay(),
             CarType.medium: Bay(),

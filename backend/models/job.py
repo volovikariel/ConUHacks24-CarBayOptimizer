@@ -1,6 +1,7 @@
 from datetime import datetime
 from models.car import CarType
-from utils.time import CSV_DATE_FORMAT_STRING
+from utils.csv import CSV_DATE_FORMAT_STRING
+from utils.misc import binarySearch
 
 
 class Job:
@@ -26,10 +27,8 @@ class Job:
         return job
 
 
-# The main function that returns the maximum possible
-# revenue from the given array of jobs
-def schedule(jobs: list[Job]):
-    # Sort jobs according to finish time
+# Returns the maximum revenue, as well as the selected jobs needed to maximize the revenue
+def schedule(jobs: list[Job]) -> (int, list[Job]):
     # NOTE: May be able to sort once before calling schedule, instead of sorting each time
     jobs = sorted(jobs, key=lambda j: j.finish)
     # Create an array to store solutions of subproblems. table[i]
@@ -44,7 +43,7 @@ def schedule(jobs: list[Job]):
     for i in range(1, num_jobs):
         # Find revenue including the current job
         inclProf = jobs[i].revenue
-        l = binarySearch(jobs, i)
+        l = binarySearch([(job.start, job.finish) for job in jobs], i)
         if l != -1:
             inclProf += table[l]["revenue"]
 
@@ -56,21 +55,3 @@ def schedule(jobs: list[Job]):
             table[i] = table[i - 1]
 
     return table[num_jobs - 1]["revenue"], table[num_jobs - 1]["selected_jobs"]
-
-
-def binarySearch(jobs: list[Job], start_index: int):
-    # Initialize 'lo' and 'hi' for Binary Search
-    lo = 0
-    hi = start_index - 1
-
-    # Perform binary Search iteratively
-    while lo <= hi:
-        mid = (lo + hi) // 2
-        if jobs[mid].finish <= jobs[start_index].start:
-            if jobs[mid + 1].finish <= jobs[start_index].start:
-                lo = mid + 1
-            else:
-                return mid
-        else:
-            hi = mid - 1
-    return -1

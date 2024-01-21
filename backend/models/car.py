@@ -18,6 +18,7 @@ APPOINTMENT_DURATION_BY_CAR_TYPE = {
     CarType.class_2_truck: 120,
 }
 
+# Revenue in dollars
 APPOINTMENT_REVENUE_BY_CAR_TYPE = {
     CarType.compact: 150,
     CarType.medium: 150,

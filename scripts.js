@@ -89,17 +89,21 @@ function drawBoxOverCells(row, time, vehicleType) {
 }
 
 // Getting data from file
-fetch("/output.json")
-.then(res => res.json())
-.then(data => {
-    console.log(data);
-    data.forEach(item => {
-        let bay = item.bay;
-        let time = item.end_date_time;
-        time = new Date(time);
-        drawBoxOverCells(bay, time, item.category);
-    });
-})
+// fetch("/schedule/yyyy-mm-dd/hh:mm")
+// .then(res => res.json())
+// .then(data => {
+//     console.log(data);
+//     data.forEach(item => {
+//         let bay = item.bay;
+//         let time = item.end_date_time;
+//         time = new Date(time);
+//         drawBoxOverCells(bay, time, item.category);
+//     });
+// })
+// .catch(error => console.error('Error fetching JSON:', error));
+
+fetch("http://localhost:8080/schedule/2022-10-04/17:45")
+.then(res => console.log(res))
 .catch(error => console.error('Error fetching JSON:', error));
 
 // Get references to modal and buttons

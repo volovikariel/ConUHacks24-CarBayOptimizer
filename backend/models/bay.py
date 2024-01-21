@@ -2,7 +2,7 @@ from models.job import Job
 
 
 class Bay:
-    def __init__(self, jobs: list[Job] = []):
+    def __init__(self, jobs: list[Job]):
         self.jobs = jobs
 
     def __str__(self) -> str:

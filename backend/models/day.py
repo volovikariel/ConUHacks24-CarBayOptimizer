@@ -13,13 +13,13 @@ class Day:
     ):
         self.start_time = start_time
         self.end_time = end_time
-        self.reserved_bays: list[Bay] = [Bay() for _ in range(5)]
+        self.reserved_bays: list[Bay] = [Bay([]) for _ in range(5)]
         self.walk_in_bay_by_type = {
-            CarType.compact: Bay(),
-            CarType.medium: Bay(),
-            CarType.full_size: Bay(),
-            CarType.class_1_truck: Bay(),
-            CarType.class_2_truck: Bay(),
+            CarType.compact: Bay([]),
+            CarType.medium: Bay([]),
+            CarType.full_size: Bay([]),
+            CarType.class_1_truck: Bay([]),
+            CarType.class_2_truck: Bay([]),
         }
         self.jobs = []
         self.selected_jobs = []
@@ -41,7 +41,7 @@ class Day:
             max_revenue, selected_jobs = schedule(remaining_jobs)
             self.selected_jobs.extend(selected_jobs)
             self.reserved_bays[i] = Bay(selected_jobs)
-            remaining_jobs = self.get_remaining_jobs()
+            remaining_jobs = self.get_remaining_reserved_jobs()
 
     def handle_walk_in_job(self, added_job: Job) -> None:
         walk_in_bay = self.walk_in_bay_by_type[added_job.car_type]
@@ -63,12 +63,27 @@ class Day:
         self.add_reserved_job(added_job)
         self.optimize_reserved_bays()
 
-    def get_remaining_jobs(self) -> list[Job]:
-        return [job for job in self.jobs if job not in self.selected_jobs]
+    def get_remaining_reserved_jobs(self) -> list[Job]:
+        return [job for job in self.jobs if job not in self.get_reserved_jobs()]
+
+    def get_reserved_jobs(self) -> list[Job]:
+        reserved_jobs = []
+        for reserved_bay in self.reserved_bays:
+            reserved_jobs.extend(reserved_bay.jobs)
+        return reserved_jobs
+
+    def get_walk_in_jobs(self) -> list[Job]:
+        walk_in_jobs = []
+        for walk_in_bay in self.walk_in_bay_by_type.values():
+            walk_in_jobs.extend(walk_in_bay.jobs)
+        return walk_in_jobs
 
     def __str__(self) -> str:
         string = ""
-        if len(self.selected_jobs) > 0:
+        if len(self.get_reserved_jobs()) > 0:
             for bay_idx, bay in enumerate(self.reserved_bays):
-                string += f"Bay {bay_idx}: {bay}\n"
+                string += f"Reserved bay {bay_idx}: {bay}\n"
+        if len(self.get_walk_in_jobs()) > 0:
+            for car_type, bay in self.walk_in_bay_by_type.items():
+                string += f"Walk-in bay for {car_type.value}: {bay}\n"
         return string

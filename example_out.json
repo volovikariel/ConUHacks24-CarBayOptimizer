@@ -1,0 +1,55 @@
+{
+    "Day0":{
+        "bay0":{
+            "compact":"09:22",
+            "class 1 truck":"12:00",
+            "class 2 truck":"14:00"
+        },
+        "bay4":{
+            "compact":"09:22",
+            "class 1 truck":"12:00",
+            "class 2 truck":"14:00"
+        },
+        "bay5":{
+            "compact":"09:22",
+            "class 1 truck":"12:00",
+            "class 2 truck":"14:00"
+        }
+    },
+    "Day1":{
+        "bay3":{
+            "compact":"09:22",
+            "class 1 truck":"12:00",
+            "class 2 truck":"14:00"
+        },
+        "bay6":{
+            "compact":"09:22",
+            "class 1 truck":"12:00",
+            "class 2 truck":"14:00"
+        },
+        "bay8":{
+            "compact":"09:22",
+            "class 1 truck":"12:00",
+            "class 2 truck":"14:00"
+        }
+
+    },
+    "Day3":{
+        "bay1":{
+            "compact":"09:22",
+            "class 1 truck":"12:00",
+            "class 2 truck":"14:00"
+        },
+        "bay10":{
+            "compact":"09:22",
+            "class 1 truck":"12:00",
+            "class 2 truck":"14:00"
+        },
+        "bay9":{
+            "compact":"09:22",
+            "class 1 truck":"12:00",
+            "class 2 truck":"14:00"
+        }
+
+    }
+}

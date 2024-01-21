@@ -7,6 +7,12 @@
   },
   {
     "start_date_time": "2022-09-03 09:22",
+    "end_date_time": "2022-11-10 12:10",
+    "category": "class 2 truck",
+    "bay": 10
+  },
+  {
+    "start_date_time": "2022-09-03 09:22",
     "end_date_time": "2022-11-10 7:26",
     "category": "class 2 truck",
     "bay": 2

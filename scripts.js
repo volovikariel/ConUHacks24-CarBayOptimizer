@@ -1,33 +1,19 @@
+var car_colors = {
+    'compact': '#d6ef84',
+    'medium': '#fbee8a',
+    'full-size': '#ef957f',
+    "class 1 truck":"#edbe94",
+    "class 2 truck":"#6576c6",
+  };
 
+  var car_images = {
+    'compact': './images/compact.png',
+    'medium': './images/medium.png',
+    'full-size': './images/full_size.png',
+    "class 1 truck":'./images/class1truck.png',
+    "class 2 truck":'./images/class2truck.png',
+  };
 
-var boxElement = document.createElement("div")
-
-boxElement.style.width = "130px";
-boxElement.style.height = "80px";
-boxElement.style.display = "inline-block";
-boxElement.style.backgroundColor = "#f00";
-boxElement.style.marginLeft = "190px";
-boxElement.style.marginTop = "280px"
-boxElement.style.position = "relative"
-boxElement.style.zIndex = "1";
-boxElement.style.borderRadius = "10px";
-
-document.body.appendChild(boxElement)
-for (let index = 0; index < 10; index++) {
-    let boxElement = document.createElement("div")
-    let marginTop = -75.75 + 4.4 * index;
-    console.log( marginTop + "%");
-    boxElement.style.width = "130px";
-    boxElement.style.height = "70px";
-    boxElement.style.display = "inline-block";
-    boxElement.style.backgroundColor = "#f00";
-    boxElement.style.marginLeft = "8%";
-    boxElement.style.marginTop = marginTop + "%";
-    boxElement.style.position = "absolute";
-    boxElement.style.zIndex = "1";
-    boxElement.style.borderRadius = "10px";
-    document.body.appendChild(boxElement)
-}
 
 function getAbsolutePosition(element) {
     var rect = element.getBoundingClientRect();
@@ -41,9 +27,9 @@ function getAbsolutePosition(element) {
     console.log("hello")
     console.log('Absolute Position:', absolutePosition);
 
-    function createOverlayImage(element) {
+    function createOverlayImage(element, carType) {
         var overlayImage = new Image();
-        overlayImage.src = 'mechanic.png'; // Replace with the path to your overlay image
+        overlayImage.src = car_images[carType]; // Replace with the path to your overlay image
         overlayImage.className = 'overlay-image';
   
         var position = getAbsolutePosition(element);
@@ -53,7 +39,6 @@ function getAbsolutePosition(element) {
         element.appendChild(overlayImage);
       }
   
-createOverlayImage(myTableCell)
 
 // Get location and dimensions of a cell in the calendar table
 function getCellLocation(row, col) {
@@ -91,9 +76,16 @@ function drawBoxOverCells(row, time, vehicleType) {
     box.style.left = cell.left + xOffset + "px";
     box.style.width = actualWidth + "px";
     box.style.height = cell.height + "px";
-    box.style.background = "red";
+    box.style.background = car_colors[vehicleType];
     box.style.borderRadius = "20px"
+    box.addEventListener('click', function() {
+        modal.style.display = 'block';
+        
+        modalContent.innerHTML =`This truck is  ${vehicleType}`;
+      });
     document.body.appendChild(box);
+
+    createOverlayImage(box,vehicleType)
 }
 
 // Getting data from file
@@ -110,3 +102,25 @@ fetch('/output.json')
         });
     })
     .catch(error => console.error('Error fetching JSON:', error));
+
+
+
+    // Get references to modal and buttons
+var modal = document.getElementById('myModal');
+// var openModalBtn = document.getElementById('openModalBtn');
+var closeModalBtn = document.getElementById('closeModalBtn');
+var modalContent = document.querySelector('.modal-content');
+
+// Event listeners to show/hide modal
+
+
+closeModalBtn.addEventListener('click', function() {
+  modal.style.display = 'none';
+});
+
+// Close modal if user clicks outside the modal content
+window.addEventListener('click', function(event) {
+  if (event.target === modal) {
+    modal.style.display = 'none';
+  }
+});

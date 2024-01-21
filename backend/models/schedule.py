@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
+import json
 from models.day import Day
 from models.job import Job
-from utils.misc import binary_search
+from utils.csv import to_csv_date_str, to_csv_datetime_str
 
 
 class Schedule:
@@ -39,41 +40,13 @@ class Schedule:
         else:
             self.days[day_idx].handle_reserved_job(job)
 
+    def as_dict(self):
+        # return datetime string and day.as_dict object
+        return {
+            "days": [
+                {to_csv_date_str(day.start_time): day.as_dict() for day in self.days}
+            ]
+        }
 
-# Returns the maximum revenue, as well as the selected jobs needed to maximize the revenue
-# TODO: Verify that this is correct...and understand what the heck it is doing
-# TODO: Probably rewrite this...
-def schedule(jobs: list[Job]) -> (int, list[Job]):
-    # NOTE: May be able to sort once before calling schedule, instead of sorting each time
-    jobs = sorted(jobs, key=lambda j: j.finish)
-    # Create an array to store solutions of subproblems. table[i]
-    # stores the revenue for jobs till arr[i] (including arr[i])
-    num_jobs = len(jobs)
-    table = [
-        {"revenue": 0, "selected_jobs": [], "treat_as_inf": False}
-        for _ in range(num_jobs)
-    ]
-
-    table[0]["revenue"] = jobs[0].revenue
-    if jobs[0].treat_as_inf is True:
-        table[0]["revenue"] = float("inf")
-    table[0]["selected_jobs"].append(jobs[0])
-
-    # Fill entries in table[] using recursive property
-    for i in range(1, num_jobs):
-        # Find revenue including the current job
-        inclProf = jobs[i].revenue
-        if jobs[i].treat_as_inf is True:
-            inclProf = float("inf")
-        l = binary_search([(job.start, job.finish) for job in jobs], i)
-        if l != -1:
-            inclProf += table[l]["revenue"]
-
-        # Store maximum of including and excluding
-        if inclProf > table[i - 1]["revenue"]:
-            table[i]["revenue"] = inclProf
-            table[i]["selected_jobs"] = table[l]["selected_jobs"] + [jobs[i]]
-        else:
-            table[i] = table[i - 1]
-
-    return table[num_jobs - 1]["revenue"], table[num_jobs - 1]["selected_jobs"]
+    def as_json(self):
+        return json.dumps(self.as_dict(), indent=4)

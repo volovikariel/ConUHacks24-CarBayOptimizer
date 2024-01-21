@@ -1,6 +1,7 @@
-import copy
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from datetime import datetime, timedelta
 import argparse
+import re
 from models.job import Job
 from models.car import (
     APPOINTMENT_DURATION_BY_CAR_TYPE,
@@ -9,12 +10,48 @@ from models.car import (
 from models.schedule import Schedule
 from utils.csv import (
     csv_to_rows,
-    to_csv_date_str,
+    to_csv_datetime,
+    to_csv_datetime_str,
 )
 
 MIN_ALLOWED_REQUEST_START_DATE = datetime(2022, 9, 1)
 ALLOWED_APPOINTMENT_START_DATE = datetime(2022, 10, 1)
 MAX_ALLOWED_APPOINTMENT_END_DATE = datetime(2022, 12, 1) - timedelta(seconds=1)
+jobs: list[Job] = []
+
+
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        # extract params
+        # date, time
+        path_pattern = re.compile(r"^/schedule/(\d{4}-\d{2}-\d{2})/(\d{2}:\d{2})$")
+        match = path_pattern.match(self.path)
+        if not match:
+            self.send_error(404, "Not Found")
+            return
+        date_str = match.group(1)
+        time_str = match.group(2)
+        curr_time = to_csv_datetime(f"{date_str} {time_str}")
+        schedule = Schedule()
+        for job in jobs:
+            if job.req_time <= curr_time:
+                schedule.add_job(job)
+
+        for day in schedule.days:
+            day_of_year = day.start_time.timetuple().tm_yday
+            if len(day.jobs) > 0:
+                print(f"Day {day_of_year}:")
+                print(day)
+
+        # Send response status code
+        self.send_response(200)
+
+        # Send headers
+        self.send_header("Content-type", "application/json")
+        self.end_headers()
+
+        # Write content as utf-8 data
+        self.wfile.write(bytes(schedule.as_json(), "utf8"))
 
 
 def main() -> None:
@@ -26,10 +63,6 @@ def main() -> None:
     # Parse the arguments
     args = parser.parse_args()
     rows = csv_to_rows(args.file)
-    # sort rows by req time
-    rows.sort(key=lambda row: row.req_time)
-
-    jobs: list[Job] = []
     for row in rows:
         req_time = row.req_time
         if (
@@ -38,7 +71,7 @@ def main() -> None:
         ):
             # Skip requests that were placed before September and after November
             print(
-                f"Skipping appointment requested at {to_csv_date_str(req_time)} because the request was placed outside the allowed date range (September to November)"
+                f"Skipping appointment requested at {to_csv_datetime_str(req_time)} because the request was placed outside the allowed date range (September to November)"
             )
             continue
         appointment_start_time = row.appointment_start
@@ -58,7 +91,7 @@ def main() -> None:
         ):
             # Skip appointments that are not in October and November
             print(
-                f"Skipping appointment requested at {to_csv_date_str(req_time)} because its appointment start time ({to_csv_date_str(appointment_start_time)}, {to_csv_date_str(appointment_end_time)}) is outside the allowed date range (October to November)"
+                f"Skipping appointment requested at {to_csv_datetime_str(req_time)} because its appointment start time ({to_csv_datetime_str(appointment_start_time)}, {to_csv_datetime_str(appointment_end_time)}) is outside the allowed date range (October to November)"
             )
             continue
         jobs.append(
@@ -70,15 +103,15 @@ def main() -> None:
                 car_type=row.car_type,
             )
         )
-    schedule = Schedule()
-    for job in jobs:
-        schedule.add_job(job)
 
-    for day in schedule.days:
-        day_of_year = day.start_time.timetuple().tm_yday
-        if len(day.jobs) > 0:
-            print(f"Day {day_of_year}:")
-            print(day)
+    # Process them in request order
+    jobs.sort(key=lambda j: j.req_time)
+
+    port = 8080
+    server_address = ("", port)
+    httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
+    print(f"Serving on port {port}")
+    httpd.serve_forever()
 
 
 if __name__ == "__main__":

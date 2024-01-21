@@ -1,8 +1,10 @@
 from datetime import datetime
+import json
 from models.bay import Bay
 from models.car import CarType
-from models.job import Job, schedule
+from models.job import Job
 from utils.misc import ranges_overlap
+from utils.schedule import schedule
 
 
 class Day:
@@ -110,3 +112,12 @@ class Day:
             for car_type, bay in self.walk_in_bay_by_type.items():
                 string += f"Walk-in bay for {car_type.value}: {bay}\n"
         return string
+
+    def as_dict(self):
+        reserved_bays = [bay.as_dict() for bay in self.reserved_bays]
+        walk_in_bays = [bay.as_dict() for bay in self.walk_in_bay_by_type.values()]
+        all_bays = reserved_bays + walk_in_bays
+        return {"bays": all_bays}
+
+    def as_json(self):
+        return json.dumps(self.as_dict(), indent=4)

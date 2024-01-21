@@ -21,21 +21,15 @@ def ranges_overlap(range: tuple[C, C], ranges: list[tuple[C, C]]) -> bool:
     return False
 
 
-def binary_search(ranges: list[tuple[C, C]], start_index: int):
+# Returns index of range whose "end"/"finish"
+# is before curr_idx; -1 when there is none
+def get_nearest_prev_finish_time(ranges: list[tuple[C, C]], curr_idx: int) -> int:
     START = 0
     FINISH = 1
-
-    lo = 0
-    hi = start_index - 1
-
-    # TODO: Verify that it's correct...what is this even doing?!
-    while lo <= hi:
-        mid = (lo + hi) // 2
-        if ranges[mid][FINISH] <= ranges[start_index][START]:
-            if ranges[mid + 1][FINISH] <= ranges[start_index][START]:
-                lo = mid + 1
-            else:
-                return mid
+    other_range_idx = curr_idx - 1
+    while other_range_idx >= 0:
+        if ranges[other_range_idx][FINISH] <= ranges[curr_idx][START]:
+            return other_range_idx
         else:
-            hi = mid - 1
+            other_range_idx -= 1
     return -1

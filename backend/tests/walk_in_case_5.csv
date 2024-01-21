@@ -1,9 +1,10 @@
-# Testing that a walk-in works for type X even if type Y is taken
+# Testing that a walk-in does not take precedence over a reserved slot
 2022-09-10 07:00,2022-10-02 07:15,compact
 2022-09-10 07:00,2022-10-02 07:15,compact
 2022-09-10 07:00,2022-10-02 07:15,compact
 2022-09-10 07:00,2022-10-02 07:15,compact
-# The following one will get put in walk-in
-2022-10-02 07:15,2022-10-02 07:15,compact
-# The following one will also get put in walk-in
-2022-10-02 07:15,2022-10-02 07:15,medium
+2022-09-10 07:00,2022-10-02 07:15,compact
+# Reserved
+2022-09-10 07:00,2022-10-02 07:50,compact
+# Walk-in will not take place as it would replace a previously reserved option
+2022-10-02 07:45,2022-10-02 07:45,compact

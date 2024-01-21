@@ -22,7 +22,7 @@ class CSVRow:
         self.car_type = car_type
 
     def __str__(self) -> str:
-        return f"{to_csv_date_str(self.req_time)},{to_csv_date_str(self.appointment_start)},{self.car_type.value}"
+        return f"{to_csv_datetime_str(self.req_time)},{to_csv_datetime_str(self.appointment_start)},{self.car_type.value}"
 
 
 def csv_to_rows(filename: str) -> list[CSVRow]:
@@ -39,17 +39,21 @@ def csv_to_rows(filename: str) -> list[CSVRow]:
             req_str, appointment_str, car_type = row.strip().split(",")
             rows.append(
                 CSVRow(
-                    req_time=to_csv_date(req_str),
-                    appointment_start=to_csv_date(appointment_str),
+                    req_time=to_csv_datetime(req_str),
+                    appointment_start=to_csv_datetime(appointment_str),
                     car_type=CarType(car_type),
                 )
             )
     return rows
 
 
-def to_csv_date_str(dt: datetime) -> str:
+def to_csv_datetime_str(dt: datetime) -> str:
     return dt.strftime(CSV_DATE_FORMAT_STRING)
 
 
-def to_csv_date(string: str) -> datetime:
+def to_csv_date_str(dt: datetime) -> str:
+    return dt.strftime("%Y-%m-%d")
+
+
+def to_csv_datetime(string: str) -> datetime:
     return datetime.strptime(string, CSV_DATE_FORMAT_STRING)

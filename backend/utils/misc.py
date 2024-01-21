@@ -11,21 +11,24 @@ C = TypeVar("C", bound=Comparable)
 
 
 def ranges_overlap(range: tuple[C, C], ranges: list[tuple[C, C]]) -> bool:
-    start = range[0]
-    end = range[1]
+    START = 0
+    FINISH = 1
+    start = range[START]
+    end = range[FINISH]
     for r in ranges:
-        if start < r[1] and end > r[0]:
+        if start < r[FINISH] and end > r[START]:
             return True
     return False
 
 
-def binarySearch(ranges: list[tuple[C, C]], start_index: int):
-    lo = 0
-    hi = start_index - 1
-
+def binary_search(ranges: list[tuple[C, C]], start_index: int):
     START = 0
     FINISH = 1
 
+    lo = 0
+    hi = start_index - 1
+
+    # TODO: Verify that it's correct...what is this even doing?!
     while lo <= hi:
         mid = (lo + hi) // 2
         if ranges[mid][FINISH] <= ranges[start_index][START]:

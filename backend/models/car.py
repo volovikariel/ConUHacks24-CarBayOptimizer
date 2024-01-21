@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Optional
 
 
 class CarType(Enum):
@@ -26,3 +27,11 @@ APPOINTMENT_REVENUE_BY_CAR_TYPE = {
     CarType.class_1_truck: 250,
     CarType.class_2_truck: 700,
 }
+
+
+def get_min_car_value() -> Optional[int]:
+    return min(APPOINTMENT_REVENUE_BY_CAR_TYPE.values())
+
+
+def get_max_car_value() -> Optional[int]:
+    return max(APPOINTMENT_REVENUE_BY_CAR_TYPE.values())

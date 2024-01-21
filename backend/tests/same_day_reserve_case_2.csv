@@ -1,6 +1,7 @@
+# If all reservation bays are full then a same day reservation will 
 2022-09-10 07:00,2022-10-01 07:15,compact
 2022-09-10 07:00,2022-10-01 07:15,compact
 2022-09-10 07:00,2022-10-01 07:15,compact
 2022-09-10 07:00,2022-10-01 07:15,compact
 2022-09-10 07:00,2022-10-01 07:15,compact
-2022-10-01 07:15,2022-10-01 07:15,compact
+2022-09-11 07:10,2022-10-01 07:20,class 1 truck

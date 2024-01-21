@@ -33,6 +33,9 @@ def csv_to_rows(filename: str) -> list[CSVRow]:
     rows = []
     with open(filename, "r") as f:
         for row in f.readlines():
+            # Just a comment, ignore this row~
+            if row.startswith("#"):
+                continue
             req_str, appointment_str, car_type = row.strip().split(",")
             rows.append(
                 CSVRow(

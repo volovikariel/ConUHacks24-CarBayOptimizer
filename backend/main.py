@@ -1,5 +1,6 @@
+import copy
 from datetime import datetime, timedelta
-import os
+import argparse
 from models.job import Job
 from models.car import (
     APPOINTMENT_DURATION_BY_CAR_TYPE,
@@ -17,7 +18,14 @@ MAX_ALLOWED_APPOINTMENT_END_DATE = datetime(2022, 12, 1) - timedelta(seconds=1)
 
 
 def main() -> None:
-    rows = csv_to_rows("tests/cases.csv")
+    parser = argparse.ArgumentParser(description="Backend for the tire-shop scheduler")
+    parser.add_argument(
+        "-f", "--file", required=True, type=str, help="The file to parse and schedule"
+    )
+
+    # Parse the arguments
+    args = parser.parse_args()
+    rows = csv_to_rows(args.file)
     # sort rows by req time
     rows.sort(key=lambda row: row.req_time)
 

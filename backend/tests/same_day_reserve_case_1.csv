@@ -1,0 +1,4 @@
+# Testing that same day reservations work fine for multiple bays
+2022-09-10 07:00,2022-10-01 07:15,class 1 truck
+2022-09-10 07:00,2022-10-01 07:35,compact
+2022-10-1 07:20,2022-10-01 07:25,class 2 truck

@@ -158,7 +158,7 @@ function showCalendar(month, year) {
                 cell.className = "date-picker";
                 var selectedDate = `${month+1}-${date}`;  // Replace with your dynamic value
                 console.log(selectedDate);
-                cell.innerHTML = '<a href="home.html?selectedDate=' + selectedDate + '">' + date + '</a>';
+                cell.innerHTML = '<a href="calendar.html?selectedDate=' + selectedDate + '">' + date + '</a>';
 
                 if ( date === start_date.getDate() && year === start_date.getFullYear() && month === start_date.getMonth() ) {
                     cell.className = "date-picker selected";

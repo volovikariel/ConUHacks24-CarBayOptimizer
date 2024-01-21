@@ -55,5 +55,9 @@ def to_csv_date_str(dt: datetime) -> str:
     return dt.strftime("%Y-%m-%d")
 
 
+def to_csv_date(string: str) -> str:
+    return datetime.strptime(string, "%Y-%m-%d")
+
+
 def to_csv_datetime(string: str) -> datetime:
     return datetime.strptime(string, CSV_DATE_FORMAT_STRING)

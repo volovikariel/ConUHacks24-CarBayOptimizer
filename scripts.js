@@ -6,6 +6,14 @@ var car_colors = {
     "class 2 truck":"#6576c6",
   };
 
+  var car_prices = {
+    'compact': 150,
+    'medium': 150,
+    'full-size': 150,
+    "class 1 truck":250,
+    "class 2 truck":700,
+  };
+
   var car_images = {
     'compact': './images/compact.png',
     'medium': './images/medium.png',
@@ -80,8 +88,9 @@ function drawBoxOverCells(row, time, vehicleType) {
     box.style.borderRadius = "20px"
     box.addEventListener('click', function() {
         modal.style.display = 'block';
-        
-        modalContent.innerHTML =`This truck is  ${vehicleType}`;
+        modalContent.style.backgroundColor = car_colors[vehicleType];
+        modalContent.innerHTML =`Car type: ${vehicleType} <br> Request time: <br> Reservation time:<br> Cost:${car_prices[vehicleType]} `;
+
       });
     document.body.appendChild(box);
 
@@ -124,3 +133,5 @@ window.addEventListener('click', function(event) {
     modal.style.display = 'none';
   }
 });
+
+console.log(currentday)

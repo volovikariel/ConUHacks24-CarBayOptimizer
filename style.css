@@ -78,8 +78,10 @@ tbody {
 #timeline{
   border-radius:30px;
 }
-#output{
+#date_output{
   font-size:80px;
+  background: transparent; /* or background: none; */
+  color: white;
 }
 #scrub {
   width: 200px;
@@ -142,7 +144,7 @@ tbody {
 .modal-content {
   background-color: #fff;
   margin: 20% auto;
-  padding: 20px;
+  padding: 80px;
   width: 60%;
   border-radius: 50px;
 
@@ -196,12 +198,16 @@ tbody {
   vertical-align: top;
 }
 
+td a {
+  color: black;
+  text-decoration: none;
+}
 .date-picker.selected {
   font-weight: bold;
   outline: 1px dashed #00bcd4;
 }
 
-.date-picker.selected span {
+.date-picker.selected td {
   border-bottom: 2px solid currentColor;
 }
 .date-picker {

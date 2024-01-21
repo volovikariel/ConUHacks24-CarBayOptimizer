@@ -8,9 +8,14 @@
 </head>
 
 <body>
-  <a href="month.html">
-    <button class="button" id="report_button">Go to Calendar</button>
-  </a>
+  <div style="display:flex;justify-content: space-between; ">
+
+    <a href="month.html">
+      <button class="button" id="report_button">Go to Calendar</button>
+    </a>
+    <h1 style="font-size: 60px;" id ="selectedDateDisplay"></h1>
+  </div>
+
 
   <div class="container">
     <table class="calendar" id="calendar">
@@ -204,7 +209,7 @@
     </div>
 
 
-    <input type="text" id="output" />
+    <input type="text" id="date_output" />
     <br><br><br><br>
 
     <div id="timeline">
@@ -272,6 +277,8 @@
 
 
 <script>
+  currentday = ""
+
   function toggleTable() {
     var table = document.getElementById("scheduleTable");
     if (table.style.opacity === "1" || table.style.opacity === "") {
@@ -280,10 +287,43 @@
       table.style.opacity = "1";
     }
   }
+
+    // Function to get query parameter by name
+    function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        // Retrieve the selected date from the query parameter
+        const selectedDate = getQueryParam('selectedDate');
+        // Display the selected date in the h1 element
+        document.getElementById('selectedDateDisplay').innerText = `Selected Date: ${selectedDate}`;
+
+        function reformatDate(inputDate) {
+        // Split the input date into month and day
+        var parts = inputDate.split('-');
+        var month = parseInt(parts[0], 10);
+        var day = parseInt(parts[1], 10);
+
+        // Create a new Date object with the current year (you can adjust this as needed)
+        var currentDate = new Date();
+        var year = currentDate.getFullYear();
+
+        // Format the month and day with leading zeros if needed
+        var formattedMonth = (month < 10) ? '0' + month : '' + month;
+        var formattedDay = (day < 10) ? '0' + day : '' + day;
+
+        // Create the reformatted date string
+        var reformattedDate = year + '-' + formattedMonth + '-' + formattedDay;
+
+        return reformattedDate;
+      }
+
+var currentDate = reformatDate(selectedDate);
+console.log("HERE IT IS: "+ currentDate)
+
 </script>
 <script type="module" src="scripts.js"></script>
-<script src="hi.js"></script>
+<script src="scrollbar.js"></script>
 <script src="scripts.js"></script>
-<script src="hi.js"></script>
 </body>
 </html>

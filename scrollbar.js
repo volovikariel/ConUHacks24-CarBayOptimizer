@@ -1,3 +1,4 @@
+
 var scrub = {
     el: document.getElementById("scrub"),
     current: {
@@ -8,7 +9,7 @@ var scrub = {
     },
   },
   timeline = document.getElementById("timeline"),
-  mouseDown = true;
+  mouseDown = false;
 scrub.el.onmousedown = function (e) {
   mouseDown = true;
   scrub.origin = timeline.offsetLeft;
@@ -23,7 +24,7 @@ scrub.el.onmousedown = function (e) {
   return false;
 };
 */
-
+current_position = 0 
 document.onmousemove = function (e) {
   if (mouseDown === true) {
     var scrubStyle = getComputedStyle(scrub.el),
@@ -37,7 +38,22 @@ document.onmousemove = function (e) {
     } else if (e.clientX > timeWidth + timeline.offsetLeft) {
       newPosition = timeWidth - scrubOffset;
     }
-    document.getElementById("output").value = newPosition;
+    current_position= newPosition
+    hour = newPosition *0.2;
+    if (newPosition>1858){
+      day = Math.floor(hour*60/720)%30 +"  November";  /* There is 60 days total and 270 hours*/
+    }else{
+      day = Math.floor(hour*60/720) + "  October";  /* There is 60 days total and 270 hours*/
+
+    }
+    hour_of_day = Math.floor(hour%12)+7;
+    if(hour_of_day<12){
+      hour_of_day+="am"
+    }
+    else{
+      hour_of_day+="pm"
+    }
+    document.getElementById("date_output").value = `${day}  ${hour_of_day}`;
     scrub.el.style.left = newPosition + "px";
     scrub.last.x = e.clientX;
   }
@@ -45,4 +61,26 @@ document.onmousemove = function (e) {
 
 document.onmouseup = function () {
   mouseDown = false;
+  update_schedule()
 };
+
+
+function update_schedule() {
+  hour = current_position*0.2;
+  day = Math.floor(hour*60/720);  /* There is 60 days total and 270 hours*/
+  hour_of_day = Math.floor(hour%12)+7;
+  month =""
+  if(day>30){
+    month = "11"
+    day = day%30
+  }
+  else{
+    month = "10"
+  }
+  day = (day < 10) ? '0' + day : '' + day;
+  hour_of_day=  (hour_of_day < 10) ? '0' + hour_of_day : '' + hour_of_day;
+  return formatted_day
+}
+
+
+

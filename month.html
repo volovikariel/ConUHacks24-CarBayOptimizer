@@ -109,12 +109,14 @@ function previous() {
     currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
     currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
     showCalendar(currentMonth, currentYear);
+
 }
 
 function jump() {
     currentYear = parseInt(selectYear.value);
     currentMonth = parseInt(selectMonth.value);
     showCalendar(currentMonth, currentYear);
+    
 }
 
 function showCalendar(month, year) {
@@ -167,26 +169,28 @@ function showCalendar(month, year) {
         }
 
         tbl.appendChild(row);
+        update_event_listener_td();
+
     }
 
 }
 
+function update_event_listener_td(){
+    var datePickers = document.querySelectorAll('.date-picker');
+
+    datePickers.forEach(function (element) {
+        element.addEventListener('click', function () {
+            // Navigate to the "home.html" page
+            window.location.href = 'home.html';
+            console.log("Navigated to home.html");
+        });
+    });
+}
 function daysInMonth(iMonth, iYear) {
     return 32 - new Date(iYear, iMonth, 32).getDate();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-      // Get all elements with class "date-picker"
-      var datePickers = document.querySelectorAll('.date-picker');
 
-      // Add click event listeners
-      datePickers.forEach(function(element) {
-        element.addEventListener('click', function() {
-          // Navigate to the "home.html" page
-          window.location.href = 'home.html';
-        });
-      });
-    });
       </script>
     </body>
 

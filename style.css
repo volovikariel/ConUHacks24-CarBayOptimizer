@@ -1,10 +1,10 @@
 body {
-  background: linear-gradient(45deg, #eeaeca, #94bbe9);
   font-family: sans-serif;
   font-weight: 100;
+  background: linear-gradient(45deg, #49a09d, #5f2c82);
+
 }
 .container {
-  background: linear-gradient(45deg, #49a09d, #5f2c82);
   padding: 5px;
   position: relative;
 }
@@ -63,19 +63,23 @@ tbody {
 
 .button {
   background-color: skyblue;
-  color: purple;
+  color: white;
   text-align: center;
   margin: 20px;
   cursor: pointer;
   font-size: 50px;
-  padding: 10px;
+  padding: 50px;
+  border: none;
+  border-radius: 20px; /* Adjust the value to control the roundness */
 }
-
+#timeline{
+  border-radius:30px;
+}
 #scrub {
-  width: 30px;
-  height: 30px;
-  background-color: black;
-  border-radius: 50%;
+  width: 200px;
+  height: 60px;
+  background-color: #111b49;
+  border-radius: 10%;
   cursor: move;
   position: relative;
   bottom: 0;
@@ -96,12 +100,14 @@ tbody {
   border-collapse: collapse;
   opacity: 1;
   transition: opacity 1s ease;
+  font-size:50px;
+  color:white;
 }
 
 .calendar{
   font-size: 30px;
   transition: opacity 1s ease; /* Smooth fade transition */
-  font-size: 30px;
+  font-size: 40px;
   color: white;
 }
 

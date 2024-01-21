@@ -40,13 +40,13 @@ th {
 
 thead {
   th {
-    background-color:#55608f;
+    background-color: #55608f;
   }
 }
-.table_time_header th{
+.table_time_header th {
   background-color: #111b49;
   height: 80px;
-  font-size:30px;
+  font-size: 30px;
   text-align: center; /* Horizontal centering */
   vertical-align: middle; /* Vertical centering */
 }
@@ -84,7 +84,29 @@ tbody {
   font-size:50px;
   padding: 10px;
 }
-.schedule{
+
+#scrub {
+  width: 30px;
+  height: 30px;
+  background-color: black;
+  border-radius: 50%;
+  cursor: move;
+  position: relative;
+  bottom: 0;
+  left: -10px;
+  z-index: 1;
+}
+
+#scrub .active {
+  cursor: move;
+}
+
+#timeline {
+  width: 100%;
+  height: 100%;
+  background-color: paleturquoise;
+}
+.schedule {
   border-collapse: collapse;
   margin: 20px;
   opacity: 1;
@@ -93,7 +115,7 @@ tbody {
   color: white;
 
 }
-.calendar{
+.calendar {
   margin: 20px;
   margin-top: 300px;
   font-size: 30px;

@@ -75,6 +75,9 @@ tbody {
 #timeline{
   border-radius:30px;
 }
+#output{
+  font-size:100px;
+}
 #scrub {
   width: 200px;
   height: 60px;

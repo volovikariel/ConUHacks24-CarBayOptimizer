@@ -1,6 +1,6 @@
 for (let index = 0; index < 10; index++) {
     let boxElement = document.createElement("div")
-    let marginTop = -71 + 4.4 * index;
+    let marginTop = -75.75 + 4.4 * index;
     console.log( marginTop + "%");
     boxElement.style.width = "130px";
     boxElement.style.height = "70px";

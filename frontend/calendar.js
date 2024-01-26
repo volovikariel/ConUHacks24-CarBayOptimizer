@@ -9,8 +9,6 @@ function generate_year_range(start, end) {
 start_date = new Date(2022, 9, 1);
 currentMonth = start_date.getMonth();
 currentYear = start_date.getFullYear();
-selectYear = document.getElementById("year");
-selectMonth = document.getElementById("month");
 
 createYear = generate_year_range(2022, 2022);
 document.getElementById("year").innerHTML = createYear;
@@ -46,7 +44,8 @@ $dataHead += "</tr>";
 //alert($dataHead);
 document.getElementById("thead-month").innerHTML = $dataHead;
 
-monthAndYear = document.getElementById("monthAndYear");
+const monthSelectorEl = document.querySelector("#date-selectors #month");
+const yearSelectorEl = document.querySelector("#date-selectors #year");
 showCalendar(currentMonth, currentYear);
 
 function next() {
@@ -62,8 +61,8 @@ function previous() {
 }
 
 function jump() {
-  currentYear = parseInt(selectYear.value);
-  currentMonth = parseInt(selectMonth.value);
+  currentYear = parseInt(yearSelectorEl.value);
+  currentMonth = parseInt(monthSelectorEl.value);
   showCalendar(currentMonth, currentYear);
 }
 
@@ -74,9 +73,8 @@ function showCalendar(month, year) {
 
   tbl.innerHTML = "";
 
-  monthAndYear.innerHTML = months[month] + " " + year;
-  selectYear.value = year;
-  selectMonth.value = month;
+  monthSelectorEl.value = month;
+  yearSelectorEl.value = year;
 
   // creating all cells
   var date = 1;

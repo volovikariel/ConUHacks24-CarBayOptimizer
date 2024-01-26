@@ -1,3 +1,4 @@
+import { update_schedule } from "./scrollbar";
 var car_colors = {
   compact: "#d6ef84",
   medium: "#fbee8a",
@@ -23,26 +24,11 @@ var car_images = {
 };
 let json_data = getDataAtSnapshot(update_schedule());
 
-async function getDataAtSnapshot(snapshot) {
+export async function getDataAtSnapshot(snapshot) {
   let data;
   const res = await fetch(`http://localhost:8080/schedule/${snapshot}`);
   data = await res.json();
   return data;
-}
-
-function findTarget(jsonData, target) {
-  // Clear previous boxes
-  document
-    .querySelectorAll("div:has(.overlay-image)")
-    .forEach((d) => d.remove());
-  jsonData = jsonData["days"][0][target];
-  bays = jsonData.bays;
-  for (let i = 0; i < 10; i++) {
-    jobs = bays[i]["jobs"];
-    jobs.forEach((job) => {
-      drawBoxOverCells(i + 1, job.start_time, job.car_type, job.req_time);
-    });
-  }
 }
 
 function getAbsolutePosition(element) {
@@ -86,7 +72,7 @@ function getCellLocation(row, col) {
 }
 
 // Draw a box over cells depending on the bay, the time and vehicle type
-function drawBoxOverCells(row, time, vehicleType, reqtime) {
+export function drawBoxOverCells(row, time, vehicleType, reqtime) {
   const datified_time = new Date(time);
 
   let cell = getCellLocation(row, datified_time.getHours() - 5);

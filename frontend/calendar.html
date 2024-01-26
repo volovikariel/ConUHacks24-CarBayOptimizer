@@ -1,136 +1,232 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ConUHacks VIII</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>ConUHacks VIII</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
+  <body>
+    <div style="display: flex; justify-content: space-between">
+      <a href="index.html">
+        <button class="button" id="report_button">Go to Calendar</button>
+      </a>
+      <h1 style="font-size: 60px" id="selectedDateDisplay"></h1>
+    </div>
 
-<body>
-  <div style="display:flex;justify-content: space-between; ">
+    <div class="container">
+      <table class="calendar" id="calendar">
+        <thead>
+          <tr class="table_time_header">
+            <th></th>
+            <th>7am</th>
+            <th>8am</th>
+            <th>9am</th>
+            <th>10am</th>
+            <th>11am</th>
+            <th>12pm</th>
+            <th>1pm</th>
+            <th>2pm</th>
+            <th>3pm</th>
+            <th>4pm</th>
+            <th>5pm</th>
+            <th>6pm</th>
+            <th>7pm</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Reserved</td>
+            <td id="testing_cell" style="position: relative"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Reserved</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Reserved</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Reserved</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Reserved</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Compact Cars</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Medium Cars</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Full-Size Cars</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Class 1 Trucks</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Class 2 Trucks</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
 
-    <a href="index.html">
-      <button class="button" id="report_button">Go to Calendar</button>
-    </a>
-    <h1 style="font-size: 60px;" id ="selectedDateDisplay"></h1>
-  </div>
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="closeModalBtn">&times;</span>
+          <p>This is a modal. Click the close button to close it.</p>
+        </div>
+      </div>
 
+      <input type="text" id="date_output" />
+      <br /><br /><br /><br />
 
-  <div class="container">
-    <table class="calendar" id="calendar">
-      <thead>
-        <tr class="table_time_header">
+      <div id="timeline">
+        <div id="scrub"></div>
+      </div>
+      <button onclick="toggleTable()" class="button" id="report_button">
+        View Report
+      </button>
+
+      <!-- These scrips are for the tippy import module-->
+      <script src="https://unpkg.com/popper.js@1"></script>
+      <script src="https://unpkg.com/tippy.js@5"></script>
+
+      <table class="schedule" id="scheduleTable">
+        <tr>
           <th></th>
-          <th>7am</th>
-          <th>8am</th>
-          <th>9am</th>
-          <th>10am</th>
-          <th>11am</th>
-          <th>12pm</th>
-          <th>1pm</th>
-          <th>2pm</th>
-          <th>3pm</th>
-          <th>4pm</th>
-          <th>5pm</th>
-          <th>6pm</th>
-          <th>7pm</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Reserved</td>
-          <td id="testing_cell" style="position: relative;"></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Reserved</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Reserved</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Reserved</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Reserved</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <th>Served Customers</th>
+          <th>Declined Customers</th>
         </tr>
         <tr>
           <td>Compact Cars</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
           <td></td>
           <td></td>
         </tr>
@@ -138,31 +234,9 @@
           <td>Medium Cars</td>
           <td></td>
           <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
         </tr>
         <tr>
           <td>Full-Size Cars</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
           <td></td>
           <td></td>
         </tr>
@@ -170,136 +244,58 @@
           <td>Class 1 Trucks</td>
           <td></td>
           <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
         </tr>
         <tr>
           <td>Class 2 Trucks</td>
           <td></td>
           <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        </tr>
+
+        <tr>
+          <th></th>
+          <th>Total Revenue</th>
+          <th>Loss Revenue</th>
+        </tr>
+        <tr>
+          <td>Today revenue</td>
           <td></td>
           <td></td>
         </tr>
-      </tbody>
-    </table>
-
-    <div id="myModal" class="modal">
-      <div class="modal-content">
-        <span class="close" id="closeModalBtn">&times;</span>
-        <p>This is a modal. Click the close button to close it.</p>
-      </div>
+        <tr>
+          <td>Revenue up to today</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
     </div>
 
+    <script>
+      currentday = "";
 
-    <input type="text" id="date_output" />
-    <br><br><br><br>
-
-    <div id="timeline">
-      <div id="scrub"></div>
-    </div>
-    <button onclick="toggleTable()" class="button" id="report_button">View Report</button>
-
-
-    <!-- These scrips are for the tippy import module-->
-    <script src="https://unpkg.com/popper.js@1"></script>
-    <script src="https://unpkg.com/tippy.js@5"></script>
-
-<table class="schedule" id="scheduleTable">
-  <tr>
-    <th></th>
-    <th>Served Customers</th>
-    <th>Declined Customers</th>
-  </tr>
-  <tr>
-    <td>Compact Cars</td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Medium Cars</td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Full-Size Cars</td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Class 1 Trucks</td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Class 2 Trucks</td>
-    <td></td>
-    <td></td>
-  </tr>
-
-
-  <tr>
-    <th></th>
-    <th>Total Revenue</th>
-    <th>Loss Revenue</th>
-  </tr>
-  <tr>
-    <td>Today revenue</td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Revenue up to today</td>
-    <td></td>
-    <td></td>
-  </tr>
-
-</table>
-</div>
-
-
-<script>
-  currentday = ""
-
-  function toggleTable() {
-    var table = document.getElementById("scheduleTable");
-    if (table.style.opacity === "1" || table.style.opacity === "") {
-      table.style.opacity = "0";
-    } else {
-      table.style.opacity = "1";
-    }
-  }
-
-    // Function to get query parameter by name
-    function getQueryParam(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
+      function toggleTable() {
+        var table = document.getElementById("scheduleTable");
+        if (table.style.opacity === "1" || table.style.opacity === "") {
+          table.style.opacity = "0";
+        } else {
+          table.style.opacity = "1";
         }
-        // Retrieve the selected date from the query parameter
-        const selectedDate = getQueryParam('selectedDate');
-        // Display the selected date in the h1 element
-        document.getElementById('selectedDateDisplay').innerText = `Selected Date: ${selectedDate}`;
+      }
 
-        function reformatDate(inputDate) {
+      // Function to get query parameter by name
+      function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+      }
+      // Retrieve the selected date from the query parameter
+      const selectedDate = getQueryParam("selectedDate");
+      // Display the selected date in the h1 element
+      document.getElementById(
+        "selectedDateDisplay"
+      ).innerText = `Selected Date: ${selectedDate}`;
+
+      function reformatDate(inputDate) {
         // Split the input date into month and day
-        var parts = inputDate.split('-');
+        var parts = inputDate.split("-");
         var month = parseInt(parts[0], 10);
         var day = parseInt(parts[1], 10);
 
@@ -308,21 +304,20 @@
         var year = "2022";
 
         // Format the month and day with leading zeros if needed
-        var formattedMonth = (month < 10) ? '0' + month : '' + month;
-        var formattedDay = (day < 10) ? '0' + day : '' + day;
+        var formattedMonth = month < 10 ? "0" + month : "" + month;
+        var formattedDay = day < 10 ? "0" + day : "" + day;
 
         // Create the reformatted date string
-        var reformattedDate = year + '-' + formattedMonth + '-' + formattedDay;
+        var reformattedDate = year + "-" + formattedMonth + "-" + formattedDay;
 
         return reformattedDate;
       }
 
-var currentDate = reformatDate(selectedDate);
-console.log("HERE IT IS: "+ currentDate)
-
-</script>
-<script type="module" src="scripts.js"></script>
-<script src="scrollbar.js"></script>
-<script src="scripts.js"></script>
-</body>
+      var currentDate = reformatDate(selectedDate);
+      console.log("HERE IT IS: " + currentDate);
+    </script>
+    <script type="module" src="scripts.js"></script>
+    <script src="scrollbar.js"></script>
+    <script src="scripts.js"></script>
+  </body>
 </html>

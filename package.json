@@ -3,8 +3,9 @@
     "start": "vite"
   },
   "dependencies": {
-    "axios": "^1.6.5",
-    "tippy.js": "^6.3.7",
+    "tippy.js": "^6.3.7"
+  },
+  "devDependencies": {
     "vite": "^5.0.12"
   }
 }

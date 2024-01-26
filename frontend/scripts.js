@@ -21,7 +21,7 @@ var car_images = {
   "class 1 truck": "./images/class1truck.png",
   "class 2 truck": "./images/class2truck.png",
 };
-json_data = getDataAtSnapshot(update_schedule());
+let json_data = getDataAtSnapshot(update_schedule());
 
 async function getDataAtSnapshot(snapshot) {
   let data;

@@ -11,5 +11,5 @@ Run the frontend easily with
 npm i
 ```
 ```bash
-npm run vite
+npm run start
 ```

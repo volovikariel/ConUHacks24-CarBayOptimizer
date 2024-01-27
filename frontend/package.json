@@ -2,9 +2,6 @@
   "scripts": {
     "start": "vite"
   },
-  "dependencies": {
-    "tippy.js": "^6.3.7"
-  },
   "devDependencies": {
     "vite": "^5.0.12"
   }

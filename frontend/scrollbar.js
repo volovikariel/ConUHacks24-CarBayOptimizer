@@ -1,14 +1,15 @@
-var scrub = {
-    el: document.getElementById("scrub"),
-    current: {
-      x: 0,
-    },
-    last: {
-      x: 0,
-    },
+let scrub = {
+  el: document.getElementById("scrub"),
+  current: {
+    x: 0,
   },
-  timeline = document.getElementById("timeline"),
-  mouseDown = false;
+  last: {
+    x: 0,
+  },
+};
+
+let timeline = document.getElementById("timeline");
+let mouseDown = false;
 scrub.el.onmousedown = function (e) {
   mouseDown = true;
   scrub.origin = timeline.offsetLeft;
@@ -16,13 +17,6 @@ scrub.el.onmousedown = function (e) {
   return false;
 };
 
-/*scrub.el.onmousedown = function () {
-  mouseDown = true;
-  scrub.origin = timeline.offsetLeft;
-  scrub.last.x = scrub.el.offsetLeft;
-  return false;
-};
-*/
 let current_position = 0;
 document.onmousemove = function (e) {
   if (mouseDown === true) {
@@ -135,18 +129,6 @@ async function getDataAtSnapshot(snapshot) {
   return data;
 }
 
-function getAbsolutePosition(element) {
-  var rect = element.getBoundingClientRect();
-  return {
-    top: rect.top + window.scrollY,
-    left: rect.left + window.scrollX,
-  };
-}
-
-var myTableCell = document.getElementById("testing_cell");
-var absolutePosition = getAbsolutePosition(myTableCell);
-console.log("hello");
-
 function createOverlayImage(element, carType) {
   var overlayImage = new Image();
   overlayImage.src = car_images[carType]; // Replace with the path to your overlay image
@@ -214,20 +196,6 @@ export function drawBoxOverCells(row, time, vehicleType, reqtime) {
 
   createOverlayImage(box, vehicleType);
 }
-
-// Getting data from file
-// fetch("/schedule/yyyy-mm-dd/hh:mm"
-// .then(res => res.json())
-// .then(data => {
-//     console.log(data);
-//     data.forEach(item => {
-//         let bay = item.bay;
-//         let time = item.end_date_time;
-//         time = new Date(time);
-//         drawBoxOverCells(bay, time, item.category);
-//     });
-// })
-// .catch(error => console.error('Error fetching JSON:', error));
 
 // Get references to modal and buttons
 var modal = document.getElementById("myModal");

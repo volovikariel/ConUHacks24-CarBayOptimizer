@@ -100,7 +100,7 @@ function showCalendar(month, year) {
         var selectedDate = `${month + 1}-${date}`; // Replace with your dynamic value
 
         cell.innerHTML =
-          '<a href="schedule.html?selectedDate=' +
+          '<a href="/pages/schedule/schedule.html?selectedDate=' +
           selectedDate +
           '">' +
           date +

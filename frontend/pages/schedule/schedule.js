@@ -1,4 +1,4 @@
-currentday = "";
+let currentday = "";
 
 function toggleTable() {
   var table = document.getElementById("scheduleTable");

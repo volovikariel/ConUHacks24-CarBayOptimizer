@@ -1,12 +1,16 @@
-let scrub = {
-  el: document.getElementById("scrub"),
-  current: {
-    x: 0,
-  },
-  last: {
-    x: 0,
-  },
-};
+class ScrubBar {
+  constructor() {
+    this.el = document.getElementById("scrub");
+    this.current = {
+      x: 0,
+    };
+    this.last = {
+      x: 0,
+    };
+  }
+}
+
+scrub = new ScrubBar();
 
 let timeline = document.getElementById("timeline");
 let mouseDown = false;

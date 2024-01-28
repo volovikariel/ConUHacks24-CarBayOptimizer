@@ -2,16 +2,13 @@ from datetime import datetime, timedelta
 import json
 from models.day import Day
 from models.job import Job
-from utils.csv import to_csv_date_str, to_csv_datetime_str
+from utils.csv import to_csv_date_str
 
 
 class Schedule:
-    def __init__(self):
+    def __init__(self, start_date: datetime, end_date: datetime):
         self.days: list[Day] = []
 
-        # Initializing only the year 2022 for simplicity
-        start_date = datetime(2022, 1, 1)
-        end_date = datetime(2022, 12, 31)
         current_date = start_date
         while current_date <= end_date:
             self.days.append(
@@ -23,8 +20,9 @@ class Schedule:
             current_date += timedelta(days=1)
 
     def add_job(self, job: Job) -> None:
-        # The days are 1 indexed, so subtract 1
-        day_idx = job.start.timetuple().tm_yday - 1
+        day_idx = (
+            job.start.timetuple().tm_yday - self.days[0].start_time.timetuple().tm_yday
+        )
         # Make sure the jobs are within the day's working hours (7am to 7pm)
         if (
             job.start < self.days[day_idx].start_time

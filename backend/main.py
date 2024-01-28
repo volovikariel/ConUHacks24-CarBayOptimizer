@@ -15,43 +15,43 @@ from utils.csv import (
 )
 
 MIN_ALLOWED_REQUEST_START_DATE = datetime(2022, 9, 1)
-ALLOWED_APPOINTMENT_START_DATE = datetime(2022, 10, 1)
-MAX_ALLOWED_APPOINTMENT_END_DATE = datetime(2022, 12, 1) - timedelta(seconds=1)
+MIN_ALLOWED_APPOINTMENT_START_DATE = datetime(2022, 10, 1)
+MAX_ALLOWED_APPOINTMENT_END_DATE = datetime(2022, 11, 30)
 jobs: list[Job] = []
 
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    def end_headers(self) -> None:
+        # Add the CORS headers to the response before sending the actual headers
+        self.send_header("Access-Control-Allow-Origin", "*")
+        super().end_headers()
+
     def do_GET(self):
-        # extract params
+        # extract params:
         # date, time
         path_pattern = re.compile(r"^/schedule/(\d{4}-\d{2}-\d{2})/(\d{2}:\d{2})$")
         match = path_pattern.match(self.path)
         if not match:
-            self.send_header("Access-Control-Allow-Origin", "*")
             self.send_error(404, "Not Found")
+            self.end_headers()
             return
         date_str = match.group(1)
         time_str = match.group(2)
         curr_time = to_csv_datetime(f"{date_str} {time_str}")
-        schedule = Schedule()
+        schedule = Schedule(
+            start_date=MIN_ALLOWED_APPOINTMENT_START_DATE,
+            end_date=MAX_ALLOWED_APPOINTMENT_END_DATE,
+        )
         for job in jobs:
             if job.req_time <= curr_time:
                 schedule.add_job(job)
 
-        # Only used for logging (no time to add logging.logger)
-        # for day in schedule.days:
-        # day_of_year = day.start_time.timetuple().tm_yday
-        # if len(day.jobs) > 0:
-        #     print(f"Day {day_of_year}:")
-        # print(day)
-
         # Send response status code
         self.send_response(200)
+        self.end_headers()
 
         # Send headers
-        self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Content-type", "application/json")
-        self.end_headers()
 
         # Write content as utf-8 data
         self.wfile.write(bytes(schedule.as_json(), "utf8"))
@@ -89,7 +89,7 @@ def main() -> None:
             )
             continue
         if (
-            appointment_start_time < ALLOWED_APPOINTMENT_START_DATE
+            appointment_start_time < MIN_ALLOWED_APPOINTMENT_START_DATE
             or appointment_end_time > MAX_ALLOWED_APPOINTMENT_END_DATE
         ):
             # Skip appointments that are not in October and November

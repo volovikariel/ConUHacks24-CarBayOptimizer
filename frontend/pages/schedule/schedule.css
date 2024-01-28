@@ -2,7 +2,6 @@ body {
   font-family: sans-serif;
   font-weight: 100;
   background: linear-gradient(45deg, #49a09d, #5f2c82);
-
 }
 .container {
   padding: 5px;
@@ -24,9 +23,8 @@ th {
   text-align: left;
 }
 thead th {
-    background-color: #55608f;
+  background-color: #55608f;
 }
-
 
 tbody {
   tr {
@@ -51,8 +49,6 @@ tbody {
   }
 }
 
-
-
 .table_time_header th {
   background-color: #111b49;
   height: 80px;
@@ -75,11 +71,14 @@ tbody {
   border: none;
   border-radius: 20px; /* Adjust the value to control the roundness */
 }
-#timeline{
-  border-radius:30px;
+#scrub-bar {
+  width: 100%;
+  height: 100%;
+  background-color: paleturquoise;
+  border-radius: 30px;
 }
-#date_output{
-  font-size:80px;
+#date_output {
+  font-size: 80px;
   background: transparent; /* or background: none; */
   color: white;
 }
@@ -99,26 +98,20 @@ tbody {
   cursor: move;
 }
 
-#timeline {
-  width: 100%;
-  height: 100%;
-  background-color: paleturquoise;
-}
 .schedule {
   border-collapse: collapse;
   opacity: 0;
   transition: opacity 1s ease;
-  font-size:50px;
-  color:white;
+  font-size: 50px;
+  color: white;
 }
 
-.calendar{
+.calendar {
   font-size: 30px;
   transition: opacity 1s ease; /* Smooth fade transition */
   font-size: 40px;
   color: white;
 }
-
 
 .overlay-image {
   position: absolute;
@@ -126,7 +119,6 @@ tbody {
   object-fit: cover;
   pointer-events: none; /* Allow clicks to pass through the overlay to the underlying content */
 }
-
 
 /* Styles for modal */
 .modal {
@@ -147,7 +139,6 @@ tbody {
   padding: 80px;
   width: 60%;
   border-radius: 50px;
-
 }
 
 .close {
@@ -213,7 +204,7 @@ td a {
 .date-picker {
   cursor: pointer;
 }
-.date-picker:hover{
+.date-picker:hover {
   background-color: #41414a;
 }
 

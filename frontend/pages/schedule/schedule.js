@@ -101,7 +101,6 @@ export async function populateSchedule(reqDate, reqTime, appointmentDate) {
   // to have a tick for each request relevant to this day.
   // As each request is a job, we simply count the # of jobs.
   if (initialLoad) {
-    let jobCount = 0;
     for (let i = 0; i < 10; i++) {
       const jobs = bays[i]["jobs"];
       relevantRequests.push(...jobs);

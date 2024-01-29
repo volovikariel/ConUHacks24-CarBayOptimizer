@@ -160,4 +160,18 @@ export async function initialize() {
   initializeModals();
 
   initializeSchedule();
+
+  // Initializing the "show report" button
+  document.getElementById("report-button").addEventListener("click", () => {
+    toggleTable();
+  });
+}
+
+function toggleTable() {
+  const table = document.getElementById("scheduleTable");
+  if (table.style.opacity == 0) {
+    table.style.opacity = 1;
+  } else {
+    table.style.opacity = 0;
+  }
 }

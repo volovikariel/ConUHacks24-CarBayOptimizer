@@ -14,7 +14,7 @@
   <body>
     <div style="display: flex; justify-content: space-between">
       <a href="/pages/calendar/calendar.html">
-        <button class="button" id="report_button">Go to Calendar</button>
+        <button class="button">Go to Calendar</button>
       </a>
       <h1 style="font-size: 60px" id="selected-date-display"></h1>
     </div>
@@ -216,9 +216,7 @@
       <br /><br /><br /><br />
 
       <input id="scrub-bar" type="range" min="1" max="1" value="1" />
-      <button onclick="toggleTable()" class="button" id="report_button">
-        View Report
-      </button>
+      <button class="button" id="report-button">View Report</button>
 
       <table class="schedule" id="scheduleTable">
         <tr>
@@ -258,7 +256,7 @@
           <th>Loss Revenue</th>
         </tr>
         <tr>
-          <td>Today revenue</td>
+          <td>Today's revenue</td>
           <td></td>
           <td></td>
         </tr>

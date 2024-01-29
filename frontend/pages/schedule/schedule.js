@@ -1,4 +1,4 @@
-import { CarType, Car } from "/models/car";
+import { CarType, Car, getCarTypeByString } from "/models/car";
 import { getQueryParam } from "/util";
 import { ScrubBar } from "/scrub-bar";
 
@@ -83,15 +83,12 @@ function drawBoxOverCells(row, time, car, reqtime) {
   createOverlayImage(box, car);
 }
 
-export async function populateSchedule(reqDate, reqTime, appointmentDate) {
+export async function populateSchedule(day) {
   // Clear previous boxes
   document
     .querySelectorAll("div:has(.overlay-image)")
     .forEach((d) => d.remove());
 
-  const formattedDate = `${reqDate}/${reqTime}`;
-  const schedule = await getScheduleAtDate(formattedDate);
-  const day = schedule["days"][0][appointmentDate];
   const bays = day.bays;
   for (let bay_num = 0; bay_num < bays.length; bay_num++) {
     const jobs = bays[bay_num]["jobs"];
@@ -106,7 +103,7 @@ export async function populateSchedule(reqDate, reqTime, appointmentDate) {
   }
 }
 
-async function getScheduleAtDate(formattedDate) {
+export async function getScheduleAtDate(formattedDate) {
   const res = await fetch(`http://localhost:8080/schedule/${formattedDate}`);
   const data = await res.json();
   return data;
@@ -128,17 +125,16 @@ function initializeModals() {
 
 async function initializeSchedule() {
   // Dummy request just to get the # of relevant requests on the selected date
-  const schedule = await getScheduleAtDate(`${selectedDate}/19:00`);
+  let schedule = await getScheduleAtDate(`${selectedDate}/19:00`);
   // We set the # ticks in the scrub bar to the # of relevant requests
   // So we go ahead and count the number of jobs on this day
-  const day = schedule["days"][0][selectedDate];
+  let day = schedule["days"][0][selectedDate]["day"];
   const bays = day.bays;
   let relevantRequests = [];
   for (let i = 0; i < 10; i++) {
     const jobs = bays[i]["jobs"];
     relevantRequests.push(...jobs);
   }
-  relevantRequests.push(...day["unassigned_jobs"]);
   relevantRequests.sort((a, b) => {
     if (a.req_time > b.req_time) {
       return 1;
@@ -152,8 +148,103 @@ async function initializeSchedule() {
   new ScrubBar(relevantRequests, requestDateDisplay);
   const [reqDate, reqTime] = relevantRequests[0].req_time.split(" ");
   // We populate the schedule based on the earliest request time relevant to this date
-  populateSchedule(reqDate, reqTime, selectedDate);
+  const formattedDate = `${reqDate}/${reqTime}`;
+  schedule = await getScheduleAtDate(formattedDate);
+  const dateObj = schedule["days"][0][selectedDate];
+  populateSchedule(dateObj["day"]);
+  populateReport(dateObj);
   requestDateDisplay.innerText = `${reqDate} ${reqTime}`;
+}
+
+const servedCompactCarsEl = document.getElementById("served-compact-cars");
+const servedMediumCarsEl = document.getElementById("served-medium-cars");
+const servedFullSizeCarsEl = document.getElementById("served-full-size-cars");
+const servedClass1TrucksEl = document.getElementById("served-class-1-trucks");
+const servedClass2TrucksEl = document.getElementById("served-class-2-trucks");
+
+const declinedCompactCarsEl = document.getElementById("declined-compact-cars");
+const declinedMediumCarsEl = document.getElementById("declined-medium-cars");
+const declinedFullSizeCarsEl = document.getElementById(
+  "declined-full-size-cars"
+);
+const declinedClass1TrucksEl = document.getElementById(
+  "declined-class-1-trucks"
+);
+const declinedClass2TrucksEl = document.getElementById(
+  "declined-class-2-trucks"
+);
+const todayTotalRevenueEl = document.getElementById("today-total-revenue");
+const todayTotalLossEl = document.getElementById("today-total-loss");
+const totalRevenueEl = document.getElementById("total-revenue");
+const totalLossEl = document.getElementById("total-loss");
+export function populateReport(dateObj) {
+  todayTotalRevenueEl.innerText = dateObj["total_revenue"];
+  todayTotalLossEl.innerText = dateObj["total_loss"];
+  totalRevenueEl.innerText = dateObj["revenue_to_date"];
+  totalLossEl.innerText = dateObj["loss_to_date"];
+
+  const dayObj = dateObj["day"];
+  const servedJobs = dayObj.selected_jobs;
+  const servedByCarType = {
+    [CarType.compact]: 0,
+    [CarType.medium]: 0,
+    [CarType.fullSize]: 0,
+    [CarType.class1Truck]: 0,
+    [CarType.class2Truck]: 0,
+  };
+  for (const job of servedJobs) {
+    servedByCarType[getCarTypeByString(job.car_type)]++;
+  }
+  for (const [carType, count] of Object.entries(servedByCarType)) {
+    switch (carType) {
+      case CarType.compact:
+        servedCompactCarsEl.innerText = count;
+        break;
+      case CarType.medium:
+        servedMediumCarsEl.innerText = count;
+        break;
+      case CarType.fullSize:
+        servedFullSizeCarsEl.innerText = count;
+        break;
+      case CarType.class1Truck:
+        servedClass1TrucksEl.innerText = count;
+        break;
+      case CarType.class2Truck:
+        servedClass2TrucksEl.innerText = count;
+        break;
+    }
+  }
+
+  const declinedByCarType = {
+    [CarType.compact]: 0,
+    [CarType.medium]: 0,
+    [CarType.fullSize]: 0,
+    [CarType.class1Truck]: 0,
+    [CarType.class2Truck]: 0,
+  };
+  const declinedJobs = dayObj.declined_jobs;
+  for (const job of declinedJobs) {
+    declinedByCarType[getCarTypeByString(job.car_type)]++;
+  }
+  for (const [carType, count] of Object.entries(declinedByCarType)) {
+    switch (carType) {
+      case CarType.compact:
+        declinedCompactCarsEl.innerText = count;
+        break;
+      case CarType.medium:
+        declinedMediumCarsEl.innerText = count;
+        break;
+      case CarType.fullSize:
+        declinedFullSizeCarsEl.innerText = count;
+        break;
+      case CarType.class1Truck:
+        declinedClass1TrucksEl.innerText = count;
+        break;
+      case CarType.class2Truck:
+        declinedClass2TrucksEl.innerText = count;
+        break;
+    }
+  }
 }
 
 export async function initialize() {

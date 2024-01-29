@@ -38,11 +38,34 @@ class Schedule:
         else:
             self.days[day_idx].handle_reserved_job(job)
 
+        # Keeping track of revenue/loss
+        if day_idx == 0:
+            self.days[day_idx].total_revenue_to_date = self.days[day_idx].total_revenue
+            self.days[day_idx].total_loss_to_date = self.days[day_idx].total_loss
+        else:
+            self.days[day_idx].total_revenue_to_date = (
+                self.days[day_idx - 1].total_revenue_to_date
+                + self.days[day_idx].total_revenue
+            )
+            self.days[day_idx].total_loss_to_date = (
+                self.days[day_idx - 1].total_loss_to_date
+                + self.days[day_idx].total_loss
+            )
+
     def as_dict(self):
         # return datetime string and day.as_dict object
         return {
             "days": [
-                {to_csv_date_str(day.start_time): day.as_dict() for day in self.days}
+                {
+                    to_csv_date_str(day.start_time): {
+                        "day": day.as_dict(),
+                        "revenue_to_date": day.total_revenue_to_date,
+                        "loss_to_date": day.total_loss_to_date,
+                        "total_revenue": day.total_revenue,
+                        "total_loss": day.total_loss,
+                    }
+                    for day in self.days
+                }
             ]
         }
 

@@ -6,6 +6,11 @@ export const CarType = Object.freeze({
   class2Truck: "class 2 truck",
 });
 
+export function getCarTypeByString(str) {
+  const entry = Object.entries(CarType).find(([key, value]) => value === str);
+  return entry ? CarType[entry[0]] : undefined;
+}
+
 const car_colors = Object.freeze({
   [CarType.compact]: "#d6ef84",
   [CarType.medium]: "#fbee8a",

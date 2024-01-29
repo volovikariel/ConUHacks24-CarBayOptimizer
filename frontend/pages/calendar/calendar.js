@@ -97,7 +97,6 @@ function showCalendar(month, year) {
         cell.setAttribute("data-month_name", months[month]);
 
         cell.className = "date-picker";
-        console.log(month + 1, day);
         var selectedDate = `2022-${padZero(month + 1)}-${padZero(day)}`;
 
         cell.innerHTML =

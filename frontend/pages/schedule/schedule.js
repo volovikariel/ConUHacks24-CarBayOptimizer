@@ -9,6 +9,12 @@ const selectedDate = getQueryParam("selectedDate");
 const selectedDateDisplay = document.getElementById("selected-date-display");
 selectedDateDisplay.innerText = `Selected Date: ${selectedDate}`;
 
+// Get references to modal and buttons
+const modal = document.getElementById("myModal");
+// var openModalBtn = document.getElementById('openModalBtn');
+const closeModalBtn = document.getElementById("closeModalBtn");
+const modalContent = document.querySelector(".modal-content");
+
 function createOverlayImage(element, car) {
   var overlayImage = new Image();
   overlayImage.src = car.image;
@@ -73,8 +79,6 @@ function drawBoxOverCells(row, time, car, reqtime) {
   createOverlayImage(box, car);
 }
 
-let relevantRequests = [];
-
 export async function populateSchedule(reqDate, reqTime, appointmentDate) {
   // Clear previous boxes
   document
@@ -104,32 +108,28 @@ async function getScheduleAtDate(formattedDate) {
   return data;
 }
 
-// Get references to modal and buttons
-var modal = document.getElementById("myModal");
-// var openModalBtn = document.getElementById('openModalBtn');
-var closeModalBtn = document.getElementById("closeModalBtn");
-var modalContent = document.querySelector(".modal-content");
-
-// Event listeners to show/hide modal
-closeModalBtn.addEventListener("click", function () {
-  modal.style.display = "none";
-});
-
-// Close modal if user clicks outside the modal content
-window.addEventListener("click", function (event) {
-  if (event.target === modal) {
+function initializeModals() {
+  // Event listeners to show/hide modal
+  closeModalBtn.addEventListener("click", function () {
     modal.style.display = "none";
-  }
-});
+  });
 
-// Ran when the page loads
-(async function main() {
+  // Close modal if user clicks outside the modal content
+  window.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+}
+
+async function initializeSchedule() {
   // Dummy request just to get the # of relevant requests on the selected date
   const schedule = await getScheduleAtDate(`${selectedDate}/19:00`);
   // We set the # ticks in the scrub bar to the # of relevant requests
   // So we go ahead and count the number of jobs on this day
   const day = schedule["days"][0][selectedDate];
   const bays = day.bays;
+  let relevantRequests = [];
   for (let i = 0; i < 10; i++) {
     const jobs = bays[i]["jobs"];
     relevantRequests.push(...jobs);
@@ -150,4 +150,10 @@ window.addEventListener("click", function (event) {
   // We populate the schedule based on the earliest request time relevant to this date
   populateSchedule(reqDate, reqTime, selectedDate);
   requestDateDisplay.innerText = `${reqDate} ${reqTime}`;
-})();
+}
+
+export async function initialize() {
+  initializeModals();
+
+  initializeSchedule();
+}

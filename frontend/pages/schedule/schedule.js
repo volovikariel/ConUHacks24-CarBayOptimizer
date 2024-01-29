@@ -72,7 +72,11 @@ function drawBoxOverCells(row, time, car, reqtime) {
   box.addEventListener("click", function () {
     modal.style.display = "block";
     modalContent.style.backgroundColor = car.color;
-    modalContent.innerHTML = `Car type: ${car.type} <br> Request time: ${reqtime} <br> Reservation time: ${time}<br> Cost:${car.price} `;
+    modalContent.innerHTML = `
+    Car type: ${car.type}<br>
+    Request time: ${reqtime}<br>
+    Reservation time: ${time}<br>
+    Cost: ${car.price}`;
   });
   document.body.appendChild(box);
 

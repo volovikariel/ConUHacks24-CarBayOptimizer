@@ -1,16 +1,14 @@
-import { CarType } from "/models/car";
+import { CarType, Car } from "/models/car";
+import { getQueryParam } from "/util";
+import { ScrubBar } from "/scrub-bar";
 
-// Function to get query parameter by name
-function getQueryParam(name) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(name);
-}
+let initialLoad = true;
+let scrubBar;
+
 // Retrieve the selected date from the query parameter
 const selectedDate = getQueryParam("selectedDate");
-// Display the selected date in the h1 element
-document.getElementById(
-  "selectedDateDisplay"
-).innerText = `Selected Date: ${selectedDate}`;
+const selectedDateDisplay = document.getElementById("selected-date-display");
+selectedDateDisplay.innerText = `Selected Date: ${selectedDate}`;
 
 function createOverlayImage(element, car) {
   var overlayImage = new Image();
@@ -37,7 +35,7 @@ function getCellLocation(row, col) {
 }
 
 // Draw a box over cells depending on the bay, the time and vehicle type
-export function drawBoxOverCells(row, time, car, reqtime) {
+function drawBoxOverCells(row, time, car, reqtime) {
   const datified_time = new Date(time);
 
   let cell = getCellLocation(row, datified_time.getHours() - 5);
@@ -76,6 +74,50 @@ export function drawBoxOverCells(row, time, car, reqtime) {
   createOverlayImage(box, car);
 }
 
+let relevantRequests = [];
+
+export async function populateSchedule(reqDate, reqTime, appointmentDate) {
+  // Clear previous boxes
+  document
+    .querySelectorAll("div:has(.overlay-image)")
+    .forEach((d) => d.remove());
+
+  const formattedDate = `${reqDate}/${reqTime}`;
+  const schedule = await getScheduleAtDate(formattedDate);
+  const day = schedule["days"][0][appointmentDate];
+  const bays = day.bays;
+  for (let bay_num = 0; bay_num < bays.length; bay_num++) {
+    const jobs = bays[bay_num]["jobs"];
+    for (const job of jobs) {
+      drawBoxOverCells(
+        bay_num + 1,
+        job.start_time,
+        new Car(job.car_type),
+        job.req_time
+      );
+    }
+  }
+  // If it's our first load, we need to set the range of the slider
+  // to have a tick for each request relevant to this day.
+  // As each request is a job, we simply count the # of jobs.
+  if (initialLoad) {
+    let jobCount = 0;
+    for (let i = 0; i < 10; i++) {
+      const jobs = bays[i]["jobs"];
+      relevantRequests.push(...jobs);
+    }
+    relevantRequests.push(...day["unassigned_jobs"]);
+    scrubBar = new ScrubBar(relevantRequests);
+    initialLoad = false;
+  }
+}
+
+async function getScheduleAtDate(formattedDate) {
+  const res = await fetch(`http://localhost:8080/schedule/${formattedDate}`);
+  const data = await res.json();
+  return data;
+}
+
 // Get references to modal and buttons
 var modal = document.getElementById("myModal");
 // var openModalBtn = document.getElementById('openModalBtn');
@@ -93,3 +135,6 @@ window.addEventListener("click", function (event) {
     modal.style.display = "none";
   }
 });
+
+// Start by initially populating the schedule on the selected date's end of day
+populateSchedule(selectedDate, "19:00", selectedDate);

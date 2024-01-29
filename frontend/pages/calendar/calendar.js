@@ -97,7 +97,7 @@ function showCalendar(month, year) {
         cell.setAttribute("data-month_name", months[month]);
 
         cell.className = "date-picker";
-        var selectedDate = `${month + 1}-${date}`; // Replace with your dynamic value
+        var selectedDate = `2022-${month + 1}-${date}`; // Replace with your dynamic value
 
         cell.innerHTML =
           '<a href="/pages/schedule/schedule.html?selectedDate=' +

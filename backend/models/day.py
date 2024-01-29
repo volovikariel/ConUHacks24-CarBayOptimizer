@@ -117,7 +117,10 @@ class Day:
         reserved_bays = [bay.as_dict() for bay in self.reserved_bays]
         walk_in_bays = [bay.as_dict() for bay in self.walk_in_bay_by_type.values()]
         all_bays = reserved_bays + walk_in_bays
-        return {"bays": all_bays}
+        return {
+            "bays": all_bays,
+            "unassigned_jobs": ["yeet"],
+        }
 
     def as_json(self):
         return json.dumps(self.as_dict(), indent=4)

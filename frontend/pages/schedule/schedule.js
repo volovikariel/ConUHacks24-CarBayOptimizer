@@ -2,8 +2,7 @@ import { CarType, Car } from "/models/car";
 import { getQueryParam } from "/util";
 import { ScrubBar } from "/scrub-bar";
 
-let initialLoad = true;
-let scrubBar;
+const requestDateDisplay = document.getElementById("requested-date");
 
 // Retrieve the selected date from the query parameter
 const selectedDate = getQueryParam("selectedDate");
@@ -97,18 +96,6 @@ export async function populateSchedule(reqDate, reqTime, appointmentDate) {
       );
     }
   }
-  // If it's our first load, we need to set the range of the slider
-  // to have a tick for each request relevant to this day.
-  // As each request is a job, we simply count the # of jobs.
-  if (initialLoad) {
-    for (let i = 0; i < 10; i++) {
-      const jobs = bays[i]["jobs"];
-      relevantRequests.push(...jobs);
-    }
-    relevantRequests.push(...day["unassigned_jobs"]);
-    scrubBar = new ScrubBar(relevantRequests);
-    initialLoad = false;
-  }
 }
 
 async function getScheduleAtDate(formattedDate) {
@@ -135,5 +122,32 @@ window.addEventListener("click", function (event) {
   }
 });
 
-// Start by initially populating the schedule on the selected date's end of day
-populateSchedule(selectedDate, "19:00", selectedDate);
+// Ran when the page loads
+(async function main() {
+  // Dummy request just to get the # of relevant requests on the selected date
+  const schedule = await getScheduleAtDate(`${selectedDate}/19:00`);
+  // We set the # ticks in the scrub bar to the # of relevant requests
+  // So we go ahead and count the number of jobs on this day
+  const day = schedule["days"][0][selectedDate];
+  const bays = day.bays;
+  for (let i = 0; i < 10; i++) {
+    const jobs = bays[i]["jobs"];
+    relevantRequests.push(...jobs);
+  }
+  relevantRequests.push(...day["unassigned_jobs"]);
+  relevantRequests.sort((a, b) => {
+    if (a.req_time > b.req_time) {
+      return 1;
+    } else if (a.req_time < b.req_time) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+  // Create the scrub bar (which sets up the # ticks)
+  new ScrubBar(relevantRequests, requestDateDisplay);
+  const [reqDate, reqTime] = relevantRequests[0].req_time.split(" ");
+  // We populate the schedule based on the earliest request time relevant to this date
+  populateSchedule(reqDate, reqTime, selectedDate);
+  requestDateDisplay.innerText = `${reqDate} ${reqTime}`;
+})();

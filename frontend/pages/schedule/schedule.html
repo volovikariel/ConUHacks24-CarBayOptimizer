@@ -207,10 +207,12 @@
         </div>
       </div>
 
-      <input type="text" id="date_output" />
+      <p id="request-date-wrapper">
+        Request Date: <span id="requested-date"></span>
+      </p>
       <br /><br /><br /><br />
 
-      <input id="scrub-bar" type="range" min="1" max="365" value="0" />
+      <input id="scrub-bar" type="range" min="1" max="1" value="1" />
       <button onclick="toggleTable()" class="button" id="report_button">
         View Report
       </button>

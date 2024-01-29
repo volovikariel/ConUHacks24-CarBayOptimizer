@@ -77,9 +77,8 @@ tbody {
   background-color: paleturquoise;
   border-radius: 30px;
 }
-#date_output {
+#request-date-wrapper {
   font-size: 80px;
-  background: transparent; /* or background: none; */
   color: white;
 }
 #scrub {

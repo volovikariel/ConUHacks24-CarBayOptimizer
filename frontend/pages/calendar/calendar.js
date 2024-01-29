@@ -77,7 +77,7 @@ function showCalendar(month, year) {
   yearSelectorEl.value = year;
 
   // creating all cells
-  var date = 1;
+  var day = 1;
   for (var i = 0; i < 6; i++) {
     var row = document.createElement("tr");
 
@@ -87,34 +87,35 @@ function showCalendar(month, year) {
         cellText = document.createTextNode("");
         cell.appendChild(cellText);
         row.appendChild(cell);
-      } else if (date > daysInMonth(month, year)) {
+      } else if (day > daysInMonth(month, year)) {
         break;
       } else {
         cell = document.createElement("td");
-        cell.setAttribute("data-date", date);
+        cell.setAttribute("data-date", day);
         cell.setAttribute("data-month", month + 1);
         cell.setAttribute("data-year", year);
         cell.setAttribute("data-month_name", months[month]);
 
         cell.className = "date-picker";
-        var selectedDate = `2022-${month + 1}-${date}`; // Replace with your dynamic value
+        console.log(month + 1, day);
+        var selectedDate = `2022-${padZero(month + 1)}-${padZero(day)}`;
 
         cell.innerHTML =
           '<a href="/pages/schedule/schedule.html?selectedDate=' +
           selectedDate +
           '">' +
-          date +
+          day +
           "</a>";
 
         if (
-          date === start_date.getDate() &&
+          day === start_date.getDate() &&
           year === start_date.getFullYear() &&
           month === start_date.getMonth()
         ) {
           cell.className = "date-picker selected";
         }
         row.appendChild(cell);
-        date++;
+        day++;
       }
     }
 
@@ -124,4 +125,12 @@ function showCalendar(month, year) {
 
 function daysInMonth(iMonth, iYear) {
   return 32 - new Date(iYear, iMonth, 32).getDate();
+}
+
+function padZero(num) {
+  num = num.toString();
+  if (num.length < 2) {
+    num = "0" + num;
+  }
+  return num;
 }
